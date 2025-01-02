@@ -26,16 +26,15 @@ const Reviews: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [expandedReviewIds, setExpandedReviewIds] = useState<string[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [loadMode, setLoadMode] = useState<'auto' | 'manual'>('auto');
+  const [loadMode, setLoadMode] = useState<"auto" | "manual">("auto");
 
-  const reviewsPerBatch = 5; // Initial auto-load limit
-  const manualLoadBatch = 5; // Batch size for manual load
-  const observer = useRef<IntersectionObserver | null>(null); // Persist the observer instance
+  const reviewsPerBatch = 5;
+  const manualLoadBatch = 5;
+  const observer = useRef<IntersectionObserver | null>(null);
 
   const fetchReviews = useCallback(
     async (offset: number, limit: number) => {
       setLoading(true);
-
       try {
         const response = await fetch("/.netlify/functions/getReviews", {
           method: "POST",
@@ -84,7 +83,6 @@ const Reviews: React.FC = () => {
   useEffect(() => {
     fetchReviews(0, reviewsPerBatch);
   }, [fetchReviews]);
-
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -112,13 +110,13 @@ const Reviews: React.FC = () => {
   };
 
   const lastReviewRef = (node: HTMLDivElement) => {
-    if (loading || loadMode === 'manual') return;
+    if (loading || loadMode === "manual") return;
 
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasMore) {
-        setLoadMode('manual'); // Switch to manual mode after auto-loading 10
+        setLoadMode("manual");
       }
     });
 
@@ -141,7 +139,7 @@ const Reviews: React.FC = () => {
     return "bg-[#D42E58] text-white";
   };
 
-  return (
+    return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
         <h2 className="text-2xl font-aeonik-bold text-gray-800 text-center leading-relaxed tracking-wide">
@@ -152,7 +150,7 @@ const Reviews: React.FC = () => {
           <div
             key={review.id}
             className="p-6 rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300"
-            ref={index === reviews.length - 1 && loadMode === 'auto' ? lastReviewRef : null}
+            ref={index === reviews.length - 1 && loadMode === "auto" ? lastReviewRef : null}
           >
             <div className="flex justify-between items-start">
               <div className="flex flex-col items-start space-y-2">
@@ -171,8 +169,7 @@ const Reviews: React.FC = () => {
                   ))}
                 </div>
                 <p className="text-sm font-aeonik-bold text-gray-800">
-                  {review.name} {" "}
-                  <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
+                  {review.name} <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
                 </p>
               </div>
               <p className="text-sm font-aeonik-regular text-gray-600">{formatDate(review.createdAt)}</p>
@@ -200,48 +197,45 @@ const Reviews: React.FC = () => {
               )}
             </blockquote>
             <div className="mt-6 flex space-x-4 text-sm font-aeonik-bold">
-              <span className={`badge ${getBadgeClass(review.serviceRating)}`}>
-                Service: {Math.round(review.serviceRating)}/5
-              </span>
-              <span className={`badge ${getBadgeClass(review.pricingRating)}`}>
-                Pricing: {Math.round(review.pricingRating)}/5
-              </span>
-              <span className={`badge ${getBadgeClass(review.speedRating)}`}>
-                Speed: {Math.round(review.speedRating)}/5
-              </span>
+              <span className={`badge ${getBadgeClass(review.serviceRating)}`}>Service: {review.serviceRating}/5</span>
+              <span className={`badge ${getBadgeClass(review.pricingRating)}`}>Pricing: {review.pricingRating}/5</span>
+              <span className={`badge ${getBadgeClass(review.speedRating)}`}>Speed: {review.speedRating}/5</span>
             </div>
             <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
-            {getRecommendationMessage(review.recommend, review.name)}
-          </p>
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org/",
-              "@type": "Product",
-              "name": "World Mobile Phone Plan",
-              "description": "World Mobile Phone Plan",
-              "review": {
-                "@type": "Review",
-                "author": {
-                  "@type": "Person",
-                  "name": review.name || "Anonymous",
-                },
-                "datePublished": review.createdAt,
-                "reviewBody": review.feedback,
-                "reviewRating": {
-                  "@type": "Rating",
-                  "ratingValue": review.overallRating,
-                  "bestRating": "5",
-                  "worstRating": "1",
-                },
-              },
-            })}
-          </script>
+              {getRecommendationMessage(review.recommend, review.name)}
+            </p>
           </div>
         ))}
 
+        {/* JSON-LD Script */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": "World Mobile Phone Plan",
+            "review": reviews.map((review) => ({
+              "@type": "Review",
+              "author": { "@type": "Person", "name": review.name || "Anonymous" },
+              "datePublished": review.createdAt,
+              "reviewBody": review.feedback,
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": review.overallRating.toFixed(1),
+                "bestRating": "5",
+                "worstRating": "1",
+              },
+              "additionalProperty": [
+                { "@type": "Rating", "name": "Pricing", "ratingValue": review.pricingRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
+                { "@type": "Rating", "name": "Speed", "ratingValue": review.speedRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
+                { "@type": "Rating", "name": "Service", "ratingValue": review.serviceRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
+              ],
+            })),
+          })}
+        </script>
+
         {loading && <p className="text-center text-gray-800">Loading more reviews...</p>}
 
-        {loadMode === 'manual' && hasMore && !loading && (
+        {loadMode === "manual" && hasMore && !loading && (
           <div className="text-center">
             <button
               onClick={handleLoadMore}
