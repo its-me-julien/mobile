@@ -80,7 +80,7 @@ const ReviewForm = () => {
         body: JSON.stringify({
           ...parseResult.data,
           captchaToken,
-          reviewType: "mobile_plan",
+          reviewType: "mobileplan",
         }),
       });
 
