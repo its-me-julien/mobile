@@ -10,7 +10,7 @@ interface RatingFieldProps {
 const RatingField: React.FC<RatingFieldProps> = ({ label, name, value, onChange }) => {
   return (
     <div className="flex items-center justify-between w-full">
-      <span className="text-sm text-white">{label}</span>
+      <span className="text-sm text-gray-800">{label}</span>
       <div className="rating flex">
         {[1, 2, 3, 4, 5].map((star) => (
           <input

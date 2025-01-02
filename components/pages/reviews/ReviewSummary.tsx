@@ -82,7 +82,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
 
     return (
       <div className="flex justify-center py-10">
-        <div className="w-full max-w-lg p-6 rounded-lg shadow-lg">
+        <div className="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white">
           {/* Output Structured Data */}
           {structuredData && (
             <script
@@ -93,10 +93,10 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
 
           {/* Header Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-aeonik-bold text-white text-center">
+            <h2 className="text-xl font-aeonik-bold text-black text-center">
               {totalReviews} Reviews - Excellent
             </h2>
-            <p className="text-sm font-aeonik-regular text-gray-300 text-center mt-2">
+            <p className="text-sm font-aeonik-regular text-gray-600 text-center mt-2">
               {"★".repeat(Math.round(clampedAverageRating))} - {clampedAverageRating.toFixed(1)}
             </p>
           </div>
@@ -105,10 +105,10 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
           <div className="space-y-6">
             {metrics.map(({ name, value }) => (
               <div key={name}>
-                <p className="text-sm font-aeonik-regular text-gray-300 capitalize">{name}</p>
+                <p className="text-sm font-aeonik-regular text-gray-600 capitalize">{name}</p>
                 <div className="flex items-center space-x-3">
                   <div
-                    className="w-full h-2 rounded bg-gray-800 overflow-hidden"
+                    className="w-full h-2 rounded bg-gray-200 overflow-hidden"
                     aria-label={`${name} rating: ${value.toFixed(1)}`}
                   >
                     <div
@@ -119,7 +119,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
                       }}
                     ></div>
                   </div>
-                  <span className="text-sm font-aeonik-bold text-white">{value.toFixed(1)}/5</span>
+                  <span className="text-sm font-aeonik-bold text-black">{value.toFixed(1)}/5</span>
                 </div>
               </div>
             ))}

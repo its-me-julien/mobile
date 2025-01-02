@@ -48,13 +48,13 @@ const JoinDiscussion: React.FC = () => {
       <section className="mt-16 max-w-7xl mx-auto px-4 space-y-16">
         {/* Header Section */}
         <div className="grid grid-cols-1 gap-6 max-w-3xl mx-auto px-4 text-center">
-          <h2 className="mb-8 text-4xl font-extrabold text-white">
+          <h2 className="mb-8 text-4xl font-extrabold text-black">
             Engage with the{' '}
             <span className="bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text text-transparent">
               World Mobile Community
             </span>
           </h2>
-          <p className="mb-6 leading-relaxed text-lg text-gray-300">
+          <p className="mb-6 leading-relaxed text-lg text-gray-600">
             Join the World Mobile Club community to share your experience with mobile phone plans, connect with other customers, and stay informed about the latest offerings and updates.
           </p>
         </div>
@@ -62,12 +62,12 @@ const JoinDiscussion: React.FC = () => {
         {/* Cards Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Card 1: Mobile Plan Reviews */}
-          <div className="card bg-[rgba(55,10,81,0.19)] text-neutral-content rounded-lg shadow-lg border border-[rgba(255,255,255,0.1)] hover:scale-105 transition-transform">
+          <div className="card bg-white text-neutral-content rounded-lg shadow-lg border border-gray-200 hover:scale-105 transition-transform">
             <div className="card-body">
-              <h3 className="card-title text-2xl font-extrabold text-white">
+              <h3 className="card-title text-2xl font-extrabold text-black">
                 Mobile Plan Reviews
               </h3>
-              <p className="text-gray-300 leading-relaxed mt-4">
+              <p className="text-gray-600 leading-relaxed mt-4">
                 Explore honest reviews and experiences from customers about World Mobile phone plans.
               </p>
               <div className="mt-6">
@@ -85,12 +85,12 @@ const JoinDiscussion: React.FC = () => {
           </div>
 
           {/* Card 2: Visit the Club */}
-          <div className="card bg-[rgba(55,10,81,0.19)] text-neutral-content rounded-lg shadow-lg border border-[rgba(255,255,255,0.1)] hover:scale-105 transition-transform">
+          <div className="card bg-white text-neutral-content rounded-lg shadow-lg border border-gray-200 hover:scale-105 transition-transform">
             <div className="card-body">
-              <h3 className="card-title text-2xl font-extrabold text-white">
+              <h3 className="card-title text-2xl font-extrabold text-black">
                 Visit the Club
               </h3>
-              <p className="text-gray-300 leading-relaxed mt-4">
+              <p className="text-gray-600 leading-relaxed mt-4">
                 Join discussions about World Mobile phone plans, celebrate milestones, and connect with the community.
               </p>
               <div className="mt-6">

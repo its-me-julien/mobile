@@ -70,19 +70,19 @@ export default function Footer() {
             <li>
               <a
                 className="link no-underline hover:text-[#F6642D] text-sm flex items-center"
-                href="https://wmtx.worldmobile.club/broadband-reviews"
-                title="Home Broadband Reviews"
+                href="https://internet.worldmobile.club/"
+                title="Home Internet Broadband"
               >
-                <i className="fas fa-home text-xs mr-2"></i> Home Broadband Reviews
+                <i className="fas fa-home text-xs mr-2"></i> Home Internet
               </a>
             </li>
             <li>
               <a
                 className="link no-underline hover:text-[#F6642D] text-sm flex items-center"
-                href="https://wmtx.worldmobile.club/mobile-phone-plan-reviews"
-                title="Phone Plan Reviews"
+                href="https://plans.worldmobile.club/"
+                title="Mobile Phone Plan"
               >
-                <i className="fas fa-mobile-alt text-xs mr-2"></i> Phone Plan Reviews
+                <i className="fas fa-mobile-alt text-xs mr-2"></i> Phone Plans
               </a>
             </li>
             <li>

@@ -59,7 +59,7 @@ const MobilePlanReviewsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-black via-[#150a2c] to-[#000000] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-100 to-white text-black">
       {/* Header */}
       <Header />
 
@@ -73,7 +73,7 @@ const MobilePlanReviewsPage = () => {
           <header className="text-center max-w-3xl mx-auto px-4 space-y-6">
             <h1
               id="world-mobile-reviews-header"
-              className="text-5xl font-aeonik-bold text-white leading-tight"
+              className="text-5xl font-aeonik-bold text-black leading-tight"
             >
               Real Reviews from{" "}
               <span className="text-transparent bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text">
@@ -81,7 +81,7 @@ const MobilePlanReviewsPage = () => {
               </span>{" "}
               Customers
             </h1>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-600">
               Considering a World Mobile phone plan? Read real customer reviews to understand the 
               value, speed, and reliability of these plans before you make a decision.
             </p>
@@ -93,7 +93,7 @@ const MobilePlanReviewsPage = () => {
               Customer Review Summary
             </h2>
             {loadingSummary ? (
-              <p className="text-center text-white">Loading summary...</p>
+              <p className="text-center text-gray-700">Loading summary...</p>
             ) : (
               <ReviewSummary
                 totalReviews={summaryData.totalReviews}

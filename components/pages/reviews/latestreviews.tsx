@@ -109,15 +109,14 @@ const Reviews: React.FC = () => {
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
-        <h2 className="text-xl font-aeonik-bold text-white text-center">
+        <h2 className="text-xl font-aeonik-bold text-black text-center">
           Latest Mobile Phone Plan Reviews
         </h2>
 
         {reviews.map((review, index) => (
           <div
             key={review.id}
-            className="p-6 rounded-lg shadow-lg"
-            style={{ background: "rgba(55,10,81,.19)" }}
+            className="p-6 rounded-lg shadow-lg bg-white border border-gray-200"
             ref={index === reviews.length - 1 && loadMode === 'auto' ? lastReviewRef : null}
           >
             <div className="flex flex-col items-start space-y-2">
@@ -135,12 +134,12 @@ const Reviews: React.FC = () => {
                   />
                 ))}
               </div>
-              <p className="text-sm font-aeonik-bold text-white">
+              <p className="text-sm font-aeonik-bold text-black">
                 {review.name} {" "}
-                <span className="font-aeonik-regular text-gray-300">(City: {review.city})</span>
+                <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
               </p>
             </div>
-            <blockquote className="mt-4 text-sm font-aeonik-regular text-gray-300 italic border-l-4 pl-4 border-[#F6642D]">
+            <blockquote className="mt-4 text-sm font-aeonik-regular text-gray-600 italic border-l-4 pl-4 border-[#F6642D]">
               {expandedReviewIds.includes(review.id) ? (
                 review.feedback
               ) : review.feedback.length > 200 ? (
@@ -158,23 +157,23 @@ const Reviews: React.FC = () => {
               )}
             </blockquote>
             <div className="mt-6 space-y-2">
-              <p className="text-sm font-aeonik-regular text-gray-300">
-                <span className="font-aeonik-bold text-white">Service:</span>{" "}
+              <p className="text-sm font-aeonik-regular text-gray-600">
+                <span className="font-aeonik-bold text-black">Service:</span>{" "}
                 {review.serviceRating.toFixed(1)}/5
               </p>
-              <p className="text-sm font-aeonik-regular text-gray-300">
-                <span className="font-aeonik-bold text-white">Pricing:</span>{" "}
+              <p className="text-sm font-aeonik-regular text-gray-600">
+                <span className="font-aeonik-bold text-black">Pricing:</span>{" "}
                 {review.pricingRating.toFixed(1)}/5
               </p>
-              <p className="text-sm font-aeonik-regular text-gray-300">
-                <span className="font-aeonik-bold text-white">Speed:</span>{" "}
+              <p className="text-sm font-aeonik-regular text-gray-600">
+                <span className="font-aeonik-bold text-black">Speed:</span>{" "}
                 {review.speedRating.toFixed(1)}/5
               </p>
             </div>
           </div>
         ))}
 
-        {loading && <p className="text-center text-white">Loading more reviews...</p>}
+        {loading && <p className="text-center text-black">Loading more reviews...</p>}
 
         {loadMode === 'manual' && hasMore && !loading && (
           <div className="text-center">
