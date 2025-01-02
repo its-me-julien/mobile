@@ -146,38 +146,54 @@ const Reviews: React.FC = () => {
           Latest World Mobile Phone Plan Reviews
         </h2>
 
-        {/* JSON-LD Script */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "World Mobile Phone Plan",
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": aggregatedData.averageRating.toFixed(1),
-              "reviewCount": aggregatedData.totalReviews,
-              "bestRating": "5",
-              "worstRating": "1",
-            },
-            "additionalProperty": [
-              {
-                "@type": "PropertyValue",
-                "name": "Service",
-                "value": aggregatedData.ratingsBreakdown.service.toFixed(1),
-              },
-              {
-                "@type": "PropertyValue",
-                "name": "Pricing",
-                "value": aggregatedData.ratingsBreakdown.pricing.toFixed(1),
-              },
-              {
-                "@type": "PropertyValue",
-                "name": "Speed",
-                "value": aggregatedData.ratingsBreakdown.speed.toFixed(1),
-              },
-            ],
-          })}
-        </script>
+       {/* JSON-LD Script */}
+       <script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "World Mobile Phone Plan",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": aggregatedData.averageRating.toFixed(1),
+      "reviewCount": aggregatedData.totalReviews,
+      "bestRating": "5",
+      "worstRating": "1",
+    },
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Service",
+        "value": aggregatedData.ratingsBreakdown.service.toFixed(1),
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Pricing",
+        "value": aggregatedData.ratingsBreakdown.pricing.toFixed(1),
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Speed",
+        "value": aggregatedData.ratingsBreakdown.speed.toFixed(1),
+      },
+    ],
+    "review": reviews.map((review) => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": review.name || "Anonymous",
+      },
+      "datePublished": review.createdAt || new Date().toISOString(),
+      "reviewBody": review.feedback || "No feedback provided.",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.overallRating.toFixed(1),
+        "bestRating": "5",
+        "worstRating": "1",
+      },
+    })),
+  })}
+</script>
+
 
         {reviews.map((review) => (
           <div
