@@ -57,6 +57,15 @@ const generateStructuredData = (
     : null;
 };
 
+// Function to get grade text based on average rating
+const getGradeText = (averageRating: number) => {
+  if (averageRating >= 4.5) return "Excellent";
+  if (averageRating >= 3.5) return "Very Good";
+  if (averageRating >= 2.5) return "OK";
+  if (averageRating >= 1.5) return "Poor";
+  return "Poor";
+};
+
 const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
   ({ totalReviews = 0, averageRating = 0, ratingsBreakdown = { overall: 0, service: 0, pricing: 0, speed: 0 } }) => {
     // Generate SEO structured data
@@ -71,6 +80,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
     };
 
     const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5);
+    const gradeText = getGradeText(clampedAverageRating);
 
     // Metrics
     const metrics = [
@@ -94,7 +104,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
           {/* Header Section */}
           <div className="mb-8">
             <h2 className="text-xl font-aeonik-bold text-black text-center">
-              {totalReviews} Reviews - Excellent
+              {totalReviews} Reviews - {gradeText}
             </h2>
             <p className="text-sm font-aeonik-regular text-gray-600 text-center mt-2">
               {"★".repeat(Math.round(clampedAverageRating))} - {clampedAverageRating.toFixed(1)}

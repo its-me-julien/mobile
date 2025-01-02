@@ -127,7 +127,7 @@ const Reviews: React.FC = () => {
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
         <h2 className="text-2xl font-aeonik-bold text-gray-800 text-center leading-relaxed tracking-wide">
-          Latest Mobile Phone Plan Reviews
+          Latest World Mobile Phone Plan Reviews
         </h2>
 
         {reviews.map((review, index) => (
@@ -160,7 +160,7 @@ const Reviews: React.FC = () => {
               <p className="text-sm font-aeonik-regular text-gray-600">{formatDate(review.createdAt)}</p>
             </div>
             <blockquote
-              className="mt-4 text-sm font-aeonik-regular text-gray-600 border-l-4 pl-4 border-[#D42E58] overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
+              className="mt-4 text-sm font-aeonik-regular text-gray-600 overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
               style={{
                 maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
               }}
