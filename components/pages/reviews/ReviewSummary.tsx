@@ -23,6 +23,8 @@ const generateStructuredData = (
   averageRating: number,
   ratingsBreakdown: RatingsBreakdown
 ) => {
+  if (totalReviews <= 0) return null; // Skip if no reviews
+
   const safeRatingsBreakdown = {
     overall: ratingsBreakdown?.overall ?? 0,
     service: ratingsBreakdown?.service ?? 0,
@@ -30,31 +32,37 @@ const generateStructuredData = (
     speed: ratingsBreakdown?.speed ?? 0,
   };
 
-  const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5);
-  const ratingValue = clampedAverageRating.toFixed(1);
-  const bestRating = 5;
-  const worstRating = 0;
+  const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5).toFixed(1);
 
-  return totalReviews > 0
-    ? {
-        "@context": "https://schema.org",
-        "@type": "AggregateRating",
-        "itemReviewed": {
-          "@type": "Service",
-          "name": "World Mobile Phone Plans",
-        },
-        "ratingValue": ratingValue,
-        "reviewCount": totalReviews,
-        "bestRating": bestRating,
-        "worstRating": worstRating,
-        "ratingBreakdown": [
-          { "name": "Overall", "rating": safeRatingsBreakdown.overall.toFixed(1) },
-          { "name": "Service", "rating": safeRatingsBreakdown.service.toFixed(1) },
-          { "name": "Pricing", "rating": safeRatingsBreakdown.pricing.toFixed(1) },
-          { "name": "Speed", "rating": safeRatingsBreakdown.speed.toFixed(1) },
-        ],
-      }
-    : null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "World Mobile Phone Plans",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": clampedAverageRating,
+      "reviewCount": totalReviews,
+      "bestRating": "5",
+      "worstRating": "1",
+    },
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Service",
+        "value": safeRatingsBreakdown.service.toFixed(1),
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Pricing",
+        "value": safeRatingsBreakdown.pricing.toFixed(1),
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Speed",
+        "value": safeRatingsBreakdown.speed.toFixed(1),
+      },
+    ],
+  };
 };
 
 // Function to get grade text based on average rating
