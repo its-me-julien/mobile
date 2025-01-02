@@ -82,6 +82,15 @@ const Reviews: React.FC = () => {
     fetchReviews(0, reviewsPerBatch);
   }, [fetchReviews]);
 
+  const formatDate = (dateString: string): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   const lastReviewRef = (node: HTMLDivElement) => {
     if (loading || loadMode === 'manual') return;
 
@@ -109,37 +118,45 @@ const Reviews: React.FC = () => {
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
-        <h2 className="text-xl font-aeonik-bold text-black text-center">
+        <h2 className="text-2xl font-bold text-gray-800 text-center leading-relaxed tracking-wide">
           Latest Mobile Phone Plan Reviews
         </h2>
 
         {reviews.map((review, index) => (
           <div
             key={review.id}
-            className="p-6 rounded-lg shadow-lg bg-white border border-gray-200"
+            className="p-6 rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300"
             ref={index === reviews.length - 1 && loadMode === 'auto' ? lastReviewRef : null}
           >
-            <div className="flex flex-col items-start space-y-2">
-              <div className="rating">
-                {[...Array(5)].map((_, i) => (
-                  <input
-                    key={i}
-                    type="radio"
-                    name={`rating-${review.id}`}
-                    className={`mask mask-star-2 ${
-                      i < review.overallRating ? "bg-[#F6642D]" : "bg-gray-500"
-                    }`}
-                    checked={i === Math.floor(review.overallRating) - 1}
-                    readOnly
-                  />
-                ))}
+            <div className="flex justify-between items-start">
+              <div className="flex flex-col items-start space-y-2">
+                <div className="rating">
+                  {[...Array(5)].map((_, i) => (
+                    <input
+                      key={i}
+                      type="radio"
+                      name={`rating-${review.id}`}
+                      className={`mask mask-star-2 ${
+                        i < review.overallRating ? "bg-[#4CAF50]" : "bg-gray-500"
+                      }`}
+                      checked={i === Math.floor(review.overallRating) - 1}
+                      readOnly
+                    />
+                  ))}
+                </div>
+                <p className="text-sm font-semibold text-gray-800">
+                  {review.name} {" "}
+                  <span className="font-normal text-gray-600">(City: {review.city})</span>
+                </p>
               </div>
-              <p className="text-sm font-aeonik-bold text-black">
-                {review.name} {" "}
-                <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
-              </p>
+              <p className="text-sm text-gray-600">{formatDate(review.createdAt)}</p>
             </div>
-            <blockquote className="mt-4 text-sm font-aeonik-regular text-gray-600 italic border-l-4 pl-4 border-[#F6642D]">
+            <blockquote
+              className="mt-4 text-sm font-normal text-gray-600 italic border-l-4 pl-4 border-[#4CAF50] overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
+              style={{
+                maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+              }}
+            >
               {expandedReviewIds.includes(review.id) ? (
                 review.feedback
               ) : review.feedback.length > 200 ? (
@@ -147,7 +164,7 @@ const Reviews: React.FC = () => {
                   {review.feedback.slice(0, 200)}...
                   <button
                     onClick={() => toggleExpandReview(review.id)}
-                    className="text-[#F6642D] underline ml-1"
+                    className="text-[#4CAF50] underline ml-1"
                   >
                     Read more
                   </button>
@@ -156,30 +173,51 @@ const Reviews: React.FC = () => {
                 review.feedback
               )}
             </blockquote>
-            <div className="mt-6 space-y-2">
-              <p className="text-sm font-aeonik-regular text-gray-600">
-                <span className="font-aeonik-bold text-black">Service:</span>{" "}
-                {review.serviceRating.toFixed(1)}/5
-              </p>
-              <p className="text-sm font-aeonik-regular text-gray-600">
-                <span className="font-aeonik-bold text-black">Pricing:</span>{" "}
-                {review.pricingRating.toFixed(1)}/5
-              </p>
-              <p className="text-sm font-aeonik-regular text-gray-600">
-                <span className="font-aeonik-bold text-black">Speed:</span>{" "}
-                {review.speedRating.toFixed(1)}/5
-              </p>
+            <div className="mt-6 flex space-x-4 text-sm font-medium">
+              <span
+                className={`badge ${
+                  review.serviceRating >= 4
+                    ? "bg-green-500 text-white"
+                    : review.serviceRating >= 2
+                    ? "bg-yellow-500 text-black"
+                    : "bg-red-500 text-white"
+                }`}
+              >
+                Service: {Math.round(review.serviceRating)}/5
+              </span>
+              <span
+                className={`badge ${
+                  review.pricingRating >= 4
+                    ? "bg-green-500 text-white"
+                    : review.pricingRating >= 2
+                    ? "bg-yellow-500 text-black"
+                    : "bg-red-500 text-white"
+                }`}
+              >
+                Pricing: {Math.round(review.pricingRating)}/5
+              </span>
+              <span
+                className={`badge ${
+                  review.speedRating >= 4
+                    ? "bg-green-500 text-white"
+                    : review.speedRating >= 2
+                    ? "bg-yellow-500 text-black"
+                    : "bg-red-500 text-white"
+                }`}
+              >
+                Speed: {Math.round(review.speedRating)}/5
+              </span>
             </div>
           </div>
         ))}
 
-        {loading && <p className="text-center text-black">Loading more reviews...</p>}
+        {loading && <p className="text-center text-gray-800">Loading more reviews...</p>}
 
         {loadMode === 'manual' && hasMore && !loading && (
           <div className="text-center">
             <button
               onClick={handleLoadMore}
-              className="px-6 py-2 text-white bg-[#F6642D] rounded hover:bg-[#d65529]"
+              className="px-6 py-2 text-white bg-[#4CAF50] rounded hover:bg-[#45a049] transition-colors duration-300"
             >
               Load More Reviews
             </button>

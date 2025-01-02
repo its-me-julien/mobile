@@ -19,7 +19,7 @@ const ReviewSchema = z.object({
   name: z.string().max(50),
   city: z.string().max(60),
   zipcode: z.string().max(20),
-  email: z.string().email().optional(),
+  email: z.string().email().optional().or(z.literal("")),
 });
 
 const ReviewForm = () => {
