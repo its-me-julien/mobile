@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: 'https://wmtx.worldmobile.club', // Your website's URL
+    siteUrl: 'https://mobile.worldmobile.club', // Your website's URL
     generateRobotsTxt: true, // Generate robots.txt
     robotsTxtOptions: {
       policies: [

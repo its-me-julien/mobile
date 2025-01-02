@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
-import JoinDiscussion from "../../components/pages/mobile-phone-plan-reviews/discussions";
-import MetaFields from "../../components/pages/mobile-phone-plan-reviews/metafields";
-import ReviewSummary from "../../components/pages/mobile-phone-plan-reviews/ReviewSummary";
-import PostReview from "../../components/pages/mobile-phone-plan-reviews/post-review";
-import Latestreviews from "../../components/pages/mobile-phone-plan-reviews/latestreviews";
+import JoinDiscussion from "../../components/pages/reviews/discussions";
+import MetaFields from "../../components/pages/reviews/metafields";
+import ReviewSummary from "../../components/pages/reviews/ReviewSummary";
+import PostReview from "../../components/pages/reviews/post-review";
+import Latestreviews from "../../components/pages/reviews/latestreviews";
 
 const MobilePlanReviewsPage = () => {
   const [summaryData, setSummaryData] = useState({

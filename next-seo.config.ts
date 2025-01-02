@@ -6,8 +6,8 @@ const SEO = {
     openGraph: {
       type: 'website',
       locale: 'en_US',
-      url: 'https://wmtx.worldmobile.club/', // Update to your website URL
-      site_name: 'World Mobile Club',
+      url: 'https://mobile.worldmobile.club/', // Update to your website URL
+      site_name: 'World Mobile Phone Plan',
       images: [
         {
           url: '/images/club_logo.png', // Path to the logo in the public folder

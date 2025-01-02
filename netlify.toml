@@ -10,7 +10,7 @@
   package = "netlify-plugin-submit-sitemap"
 
   [plugins.inputs]
-  baseUrl = "https://wmtx.worldmobile.club"
+  baseUrl = "https://mobile.worldmobile.club"
   sitemapPath = "/sitemap-0.xml"
   providers = [
     "google",

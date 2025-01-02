@@ -7,11 +7,11 @@ import RichSchemaOrganization from '../components/header/RichSchemaOrganization'
 
 // SEO metadata using Next.js Metadata API
 export const metadata: Metadata = {
-  metadataBase: new URL('https://wmtx.worldmobile.club/'), // Add your metadata base here
+  metadataBase: new URL('https://plans.worldmobile.club/'), // Add your metadata base here
   title: 'World Mobile Club',
   description: 'Connecting everyone, everywhere with the first blockchain-powered mobile network World Mobile Chain. Join the movement to bridge the digital divide.',
   openGraph: {
-    url: 'https://wmtx.worldmobile.club/', // Updated website URL
+    url: 'https://plans.worldmobile.club/', // Updated website URL
     title: 'World Mobile Club',
     description: 'Connecting everyone, everywhere with the first blockchain-powered mobile network World Mobile Chain.',
     images: [

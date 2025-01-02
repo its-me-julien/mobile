@@ -6,7 +6,7 @@ import { z } from "zod";
 import sanitizeHtml from "sanitize-html";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle, faBullhorn, faCheckCircle, faExclamationCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
-import RatingField from "./review/RatingField";
+import RatingField from "./RatingField";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 const ReviewSchema = z.object({
