@@ -67,6 +67,7 @@ exports.handler = async (event) => {
     // Prepare data for saving
     const sanitizedData = {
       ...validatedData,
+      email: validatedData.email || "anonymous@example.com",
       createdAt: new Date().toISOString(),
     };
     delete sanitizedData.captchaToken; // Remove CAPTCHA token before saving

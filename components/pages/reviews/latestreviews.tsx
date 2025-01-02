@@ -12,6 +12,7 @@ interface Review {
   name: string;
   city: string;
   createdAt: string;
+  recommends: boolean; // New field for recommendation
 }
 
 interface GetReviewsResponse {
@@ -65,6 +66,7 @@ const Reviews: React.FC = () => {
           name: review.name || "Anonymous",
           city: review.city || "Unknown",
           createdAt: review.createdAt || "",
+          recommends: review.recommends ?? false, // Default to false if not provided
         }));
 
         setReviews((prev) => [...prev, ...sanitizedReviews]);
@@ -115,10 +117,16 @@ const Reviews: React.FC = () => {
     );
   };
 
+  const getBadgeClass = (rating: number) => {
+    if (rating >= 4) return "bg-[#F6642D] text-white";
+    if (rating >= 2) return "bg-[#5A2FBA] text-white";
+    return "bg-[#D42E58] text-white";
+  };
+
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
-        <h2 className="text-2xl font-bold text-gray-800 text-center leading-relaxed tracking-wide">
+        <h2 className="text-2xl font-aeonik-bold text-gray-800 text-center leading-relaxed tracking-wide">
           Latest Mobile Phone Plan Reviews
         </h2>
 
@@ -137,22 +145,22 @@ const Reviews: React.FC = () => {
                       type="radio"
                       name={`rating-${review.id}`}
                       className={`mask mask-star-2 ${
-                        i < review.overallRating ? "bg-[#4CAF50]" : "bg-gray-500"
+                        i < review.overallRating ? "bg-[#F6642D]" : "bg-gray-500"
                       }`}
                       checked={i === Math.floor(review.overallRating) - 1}
                       readOnly
                     />
                   ))}
                 </div>
-                <p className="text-sm font-semibold text-gray-800">
+                <p className="text-sm font-aeonik-bold text-gray-800">
                   {review.name} {" "}
-                  <span className="font-normal text-gray-600">(City: {review.city})</span>
+                  <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
                 </p>
               </div>
-              <p className="text-sm text-gray-600">{formatDate(review.createdAt)}</p>
+              <p className="text-sm font-aeonik-regular text-gray-600">{formatDate(review.createdAt)}</p>
             </div>
             <blockquote
-              className="mt-4 text-sm font-normal text-gray-600 italic border-l-4 pl-4 border-[#4CAF50] overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
+              className="mt-4 text-sm font-aeonik-regular text-gray-600 border-l-4 pl-4 border-[#D42E58] overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
               style={{
                 maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
               }}
@@ -164,7 +172,7 @@ const Reviews: React.FC = () => {
                   {review.feedback.slice(0, 200)}...
                   <button
                     onClick={() => toggleExpandReview(review.id)}
-                    className="text-[#4CAF50] underline ml-1"
+                    className="text-[#F6642D] underline ml-1"
                   >
                     Read more
                   </button>
@@ -173,41 +181,20 @@ const Reviews: React.FC = () => {
                 review.feedback
               )}
             </blockquote>
-            <div className="mt-6 flex space-x-4 text-sm font-medium">
-              <span
-                className={`badge ${
-                  review.serviceRating >= 4
-                    ? "bg-green-500 text-white"
-                    : review.serviceRating >= 2
-                    ? "bg-yellow-500 text-black"
-                    : "bg-red-500 text-white"
-                }`}
-              >
+            <div className="mt-6 flex space-x-4 text-sm font-aeonik-bold">
+              <span className={`badge ${getBadgeClass(review.serviceRating)}`}>
                 Service: {Math.round(review.serviceRating)}/5
               </span>
-              <span
-                className={`badge ${
-                  review.pricingRating >= 4
-                    ? "bg-green-500 text-white"
-                    : review.pricingRating >= 2
-                    ? "bg-yellow-500 text-black"
-                    : "bg-red-500 text-white"
-                }`}
-              >
+              <span className={`badge ${getBadgeClass(review.pricingRating)}`}>
                 Pricing: {Math.round(review.pricingRating)}/5
               </span>
-              <span
-                className={`badge ${
-                  review.speedRating >= 4
-                    ? "bg-green-500 text-white"
-                    : review.speedRating >= 2
-                    ? "bg-yellow-500 text-black"
-                    : "bg-red-500 text-white"
-                }`}
-              >
+              <span className={`badge ${getBadgeClass(review.speedRating)}`}>
                 Speed: {Math.round(review.speedRating)}/5
               </span>
             </div>
+            <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
+            {review.recommends ? `${review.name} would recommend this service.` : `${review.name} does not recommend this service.`}
+            </p>
           </div>
         ))}
 
@@ -217,7 +204,7 @@ const Reviews: React.FC = () => {
           <div className="text-center">
             <button
               onClick={handleLoadMore}
-              className="px-6 py-2 text-white bg-[#4CAF50] rounded hover:bg-[#45a049] transition-colors duration-300"
+              className="px-6 py-2 text-white bg-[#D42E58] rounded hover:bg-[#C42A4E] transition-colors duration-300"
             >
               Load More Reviews
             </button>
