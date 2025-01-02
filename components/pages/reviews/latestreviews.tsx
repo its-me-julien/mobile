@@ -12,7 +12,7 @@ interface Review {
   name: string;
   city: string;
   createdAt: string;
-  recommends: "Yes" | "No";
+  recommend: "Yes" | "No";
 }
 
 interface GetReviewsResponse {
@@ -66,7 +66,7 @@ const Reviews: React.FC = () => {
           name: review.name || "Anonymous",
           city: review.city || "Unknown",
           createdAt: review.createdAt || "",
-          recommends: review.recommends as "Yes" | "No",
+          recommend: review.recommend as "Yes" | "No",
         }));
 
         setReviews((prev) => [...prev, ...sanitizedReviews]);
@@ -92,6 +92,14 @@ const Reviews: React.FC = () => {
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+  const getRecommendationMessage = (recommends: string, name: string) => {
+    if (recommends === "Yes") {
+      return `${name} would recommend this service.`;
+    }
+    return `${name} does not recommend this service.`;
+  };
+
 
   const lastReviewRef = (node: HTMLDivElement) => {
     if (loading || loadMode === 'manual') return;
@@ -193,9 +201,7 @@ const Reviews: React.FC = () => {
               </span>
             </div>
             <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
-            {review.recommends === "Yes"
-              ? `${review.name} would recommend this service.`
-              : `${review.name} does not recommend this service.`}
+            {getRecommendationMessage(review.recommend, review.name)}
           </p>
           </div>
         ))}
