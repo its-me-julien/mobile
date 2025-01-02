@@ -19,7 +19,7 @@ const ReviewSchema = z.object({
   name: z.string().max(50),
   city: z.string().max(60),
   zipcode: z.string().max(20),
-  email: z.string().email().optional().or(z.literal("")),
+  email: z.string().email().or(z.literal("")),
 });
 
 const ReviewForm = () => {
@@ -56,23 +56,24 @@ const ReviewForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Submitting...");
-
+  
     console.log("Form data before submission:", formData);
-
+  
     const parseResult = ReviewSchema.safeParse(formData);
-
+  
     if (!parseResult.success) {
-      setStatus("Validation failed. Please check your input.");
+      const errorMessages = parseResult.error.issues.map((issue) => issue.message).join(", ");
+      setStatus(`Validation failed: ${errorMessages}`);
       console.error("Validation errors:", parseResult.error.issues);
       return;
     }
-
+  
     if (!captchaToken) {
       setStatus("Please complete the CAPTCHA");
       console.warn("CAPTCHA token missing");
       return;
     }
-
+  
     try {
       const response = await fetch("/.netlify/functions/submitReview", {
         method: "POST",
@@ -83,11 +84,11 @@ const ReviewForm = () => {
           reviewType: "mobileplan",
         }),
       });
-
+  
       const result = await response.json();
-
+  
       console.log("Server response:", result);
-
+  
       if (response.ok) {
         setStatus("Review submitted successfully!");
         setFormData({

@@ -12,7 +12,7 @@ interface Review {
   name: string;
   city: string;
   createdAt: string;
-  recommends: boolean; // New field for recommendation
+  recommends: "Yes" | "No";
 }
 
 interface GetReviewsResponse {
@@ -193,8 +193,10 @@ const Reviews: React.FC = () => {
               </span>
             </div>
             <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
-            {review.recommends ? `${review.name} would recommend this service.` : `${review.name} does not recommend this service.`}
-            </p>
+            {review.recommends === "Yes"
+              ? `${review.name} would recommend this service.`
+              : `${review.name} does not recommend this service.`}
+          </p>
           </div>
         ))}
 
