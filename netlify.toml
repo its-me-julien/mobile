@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+  functions = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[plugins]]
+  package = "netlify-plugin-submit-sitemap"
+
+  [plugins.inputs]
+  baseUrl = "https://wmtx.worldmobile.club"
+  sitemapPath = "/sitemap-0.xml"
+  providers = [
+    "google",
+    "yandex"
+  ]

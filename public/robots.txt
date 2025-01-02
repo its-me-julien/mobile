@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://wmtx.worldmobile.club
+
+# Sitemaps
+Sitemap: https://wmtx.worldmobile.club/sitemap.xml
