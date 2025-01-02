@@ -66,7 +66,7 @@ const Reviews: React.FC = () => {
           name: review.name || "Anonymous",
           city: review.city || "Unknown",
           createdAt: review.createdAt || "",
-          recommends: review.recommends ?? false, // Default to false if not provided
+          recommends: review.recommends as "Yes" | "No",
         }));
 
         setReviews((prev) => [...prev, ...sanitizedReviews]);
