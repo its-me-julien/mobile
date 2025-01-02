@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 interface Review {
@@ -25,64 +23,84 @@ const Reviews: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
   const [expandedReviewIds, setExpandedReviewIds] = useState<string[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [loadMode, setLoadMode] = useState<"auto" | "manual">("auto");
+  const [aggregatedData, setAggregatedData] = useState({
+    totalReviews: 0,
+    averageRating: 0,
+    ratingsBreakdown: { overall: 0, service: 0, pricing: 0, speed: 0 },
+  });
 
   const reviewsPerBatch = 5;
-  const manualLoadBatch = 5;
-  const observer = useRef<IntersectionObserver | null>(null);
 
-  const fetchReviews = useCallback(
-    async (offset: number, limit: number) => {
-      setLoading(true);
-      try {
-        const response = await fetch("/.netlify/functions/getReviews", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            collection: "mobileplan_review",
-            limit,
-            offset,
-          }),
-        });
+  const fetchReviews = useCallback(async (offset: number, limit: number) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/.netlify/functions/getReviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          collection: "mobileplan_review",
+          limit,
+          offset,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch reviews");
-        }
-
-        const data: GetReviewsResponse = await response.json();
-
-        if (!Array.isArray(data.reviews)) {
-          throw new Error("Invalid API response: reviews should be an array");
-        }
-
-        const sanitizedReviews = data.reviews.map((review) => ({
-          id: review.id || "",
-          overallRating: review.overallRating || 0,
-          serviceRating: review.serviceRating || 0,
-          pricingRating: review.pricingRating || 0,
-          speedRating: review.speedRating || 0,
-          feedback: review.feedback || "",
-          name: review.name || "Anonymous",
-          city: review.city || "Unknown",
-          createdAt: review.createdAt || "",
-          recommend: review.recommend as "Yes" | "No",
-        }));
-
-        setReviews((prev) => [...prev, ...sanitizedReviews]);
-        setHasMore(sanitizedReviews.length === limit);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to fetch reviews");
       }
-    },
-    []
-  );
+
+      const data: GetReviewsResponse = await response.json();
+
+      const sanitizedReviews = data.reviews.map((review) => ({
+        id: review.id || "",
+        overallRating: review.overallRating || 0,
+        serviceRating: review.serviceRating || 0,
+        pricingRating: review.pricingRating || 0,
+        speedRating: review.speedRating || 0,
+        feedback: review.feedback || "",
+        name: review.name || "Anonymous",
+        city: review.city || "Unknown",
+        createdAt: review.createdAt || "",
+        recommend: review.recommend as "Yes" | "No",
+      }));
+
+      setReviews((prev) => [...prev, ...sanitizedReviews]);
+
+      // Calculate aggregations
+      const totalReviews = sanitizedReviews.length;
+      const ratingsBreakdown = sanitizedReviews.reduce(
+        (acc, review) => {
+          acc.overall += review.overallRating;
+          acc.service += review.serviceRating;
+          acc.pricing += review.pricingRating;
+          acc.speed += review.speedRating;
+          return acc;
+        },
+        { overall: 0, service: 0, pricing: 0, speed: 0 }
+      );
+
+      const averageRating = ratingsBreakdown.overall / totalReviews;
+
+      setAggregatedData({
+        totalReviews,
+        averageRating,
+        ratingsBreakdown: {
+          overall: ratingsBreakdown.overall / totalReviews,
+          service: ratingsBreakdown.service / totalReviews,
+          pricing: ratingsBreakdown.pricing / totalReviews,
+          speed: ratingsBreakdown.speed / totalReviews,
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchReviews(0, reviewsPerBatch);
   }, [fetchReviews]);
+
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -109,24 +127,6 @@ const Reviews: React.FC = () => {
     );
   };
 
-  const lastReviewRef = (node: HTMLDivElement) => {
-    if (loading || loadMode === "manual") return;
-
-    if (observer.current) observer.current.disconnect();
-
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasMore) {
-        setLoadMode("manual");
-      }
-    });
-
-    if (node) observer.current.observe(node);
-  };
-
-  const handleLoadMore = () => {
-    fetchReviews(reviews.length, manualLoadBatch);
-  };
-
   const toggleExpandReview = (id: string) => {
     setExpandedReviewIds((prev) =>
       prev.includes(id) ? prev.filter((reviewId) => reviewId !== id) : [...prev, id]
@@ -139,18 +139,50 @@ const Reviews: React.FC = () => {
     return "bg-[#D42E58] text-white";
   };
 
-    return (
+  return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
         <h2 className="text-2xl font-aeonik-bold text-gray-800 text-center leading-relaxed tracking-wide">
           Latest World Mobile Phone Plan Reviews
         </h2>
 
-        {reviews.map((review, index) => (
+        {/* JSON-LD Script */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "World Mobile Phone Plan",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": aggregatedData.averageRating.toFixed(1),
+              "reviewCount": aggregatedData.totalReviews,
+              "bestRating": "5",
+              "worstRating": "1",
+            },
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Service",
+                "value": aggregatedData.ratingsBreakdown.service.toFixed(1),
+              },
+              {
+                "@type": "PropertyValue",
+                "name": "Pricing",
+                "value": aggregatedData.ratingsBreakdown.pricing.toFixed(1),
+              },
+              {
+                "@type": "PropertyValue",
+                "name": "Speed",
+                "value": aggregatedData.ratingsBreakdown.speed.toFixed(1),
+              },
+            ],
+          })}
+        </script>
+
+        {reviews.map((review) => (
           <div
             key={review.id}
             className="p-6 rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300"
-            ref={index === reviews.length - 1 && loadMode === "auto" ? lastReviewRef : null}
           >
             <div className="flex justify-between items-start">
               <div className="flex flex-col items-start space-y-2">
@@ -207,44 +239,7 @@ const Reviews: React.FC = () => {
           </div>
         ))}
 
-        {/* JSON-LD Script */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org/",
-            "@type": "Product",
-            "name": "World Mobile Phone Plan",
-            "review": reviews.map((review) => ({
-              "@type": "Review",
-              "author": { "@type": "Person", "name": review.name || "Anonymous" },
-              "datePublished": review.createdAt,
-              "reviewBody": review.feedback,
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": review.overallRating.toFixed(1),
-                "bestRating": "5",
-                "worstRating": "1",
-              },
-              "additionalProperty": [
-                { "@type": "Rating", "name": "Pricing", "ratingValue": review.pricingRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
-                { "@type": "Rating", "name": "Speed", "ratingValue": review.speedRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
-                { "@type": "Rating", "name": "Service", "ratingValue": review.serviceRating.toFixed(1), "bestRating": "5", "worstRating": "1" },
-              ],
-            })),
-          })}
-        </script>
-
         {loading && <p className="text-center text-gray-800">Loading more reviews...</p>}
-
-        {loadMode === "manual" && hasMore && !loading && (
-          <div className="text-center">
-            <button
-              onClick={handleLoadMore}
-              className="px-6 py-2 text-white bg-[#D42E58] rounded hover:bg-[#C42A4E] transition-colors duration-300"
-            >
-              Load More Reviews
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -17,54 +17,6 @@ interface ReviewSummaryProps {
   ratingsBreakdown?: RatingsBreakdown;
 }
 
-// Function to generate structured data for SEO
-const generateStructuredData = (
-  totalReviews: number,
-  averageRating: number,
-  ratingsBreakdown: RatingsBreakdown
-) => {
-  if (totalReviews <= 0) return null; // Skip if no reviews
-
-  const safeRatingsBreakdown = {
-    overall: ratingsBreakdown?.overall ?? 0,
-    service: ratingsBreakdown?.service ?? 0,
-    pricing: ratingsBreakdown?.pricing ?? 0,
-    speed: ratingsBreakdown?.speed ?? 0,
-  };
-
-  const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5).toFixed(1);
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "World Mobile Phone Plans",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": clampedAverageRating,
-      "reviewCount": totalReviews,
-      "bestRating": "5",
-      "worstRating": "1",
-    },
-    "additionalProperty": [
-      {
-        "@type": "PropertyValue",
-        "name": "Service",
-        "value": safeRatingsBreakdown.service.toFixed(1),
-      },
-      {
-        "@type": "PropertyValue",
-        "name": "Pricing",
-        "value": safeRatingsBreakdown.pricing.toFixed(1),
-      },
-      {
-        "@type": "PropertyValue",
-        "name": "Speed",
-        "value": safeRatingsBreakdown.speed.toFixed(1),
-      },
-    ],
-  };
-};
-
 // Function to get grade text based on average rating
 const getGradeText = (averageRating: number) => {
   if (averageRating >= 4.5) return "Excellent";
@@ -76,39 +28,20 @@ const getGradeText = (averageRating: number) => {
 
 const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
   ({ totalReviews = 0, averageRating = 0, ratingsBreakdown = { overall: 0, service: 0, pricing: 0, speed: 0 } }) => {
-    // Generate SEO structured data
-    const structuredData = generateStructuredData(totalReviews, averageRating, ratingsBreakdown);
-
-    // Safe ratings breakdown
-    const safeRatingsBreakdown = {
-      overall: ratingsBreakdown?.overall ?? 0,
-      service: ratingsBreakdown?.service ?? 0,
-      pricing: ratingsBreakdown?.pricing ?? 0,
-      speed: ratingsBreakdown?.speed ?? 0,
-    };
-
     const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5);
     const gradeText = getGradeText(clampedAverageRating);
 
     // Metrics
     const metrics = [
-      { name: "Overall", value: safeRatingsBreakdown.overall },
-      { name: "Service", value: safeRatingsBreakdown.service },
-      { name: "Pricing", value: safeRatingsBreakdown.pricing },
-      { name: "Speed", value: safeRatingsBreakdown.speed },
+      { name: "Overall", value: ratingsBreakdown.overall },
+      { name: "Service", value: ratingsBreakdown.service },
+      { name: "Pricing", value: ratingsBreakdown.pricing },
+      { name: "Speed", value: ratingsBreakdown.speed },
     ];
 
     return (
       <div className="flex justify-center py-10">
         <div className="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white">
-          {/* Output Structured Data */}
-          {structuredData && (
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-            />
-          )}
-
           {/* Header Section */}
           <div className="mb-8">
             <h2 className="text-xl font-aeonik-bold text-black text-center">
