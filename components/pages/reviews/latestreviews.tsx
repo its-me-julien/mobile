@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 interface Review {
   id: string;
@@ -27,8 +28,8 @@ const Reviews: React.FC = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loadMode, setLoadMode] = useState<'auto' | 'manual'>('auto');
 
-  const reviewsPerBatch = 10; // Initial auto-load limit
-  const manualLoadBatch = 20; // Batch size for manual load
+  const reviewsPerBatch = 5; // Initial auto-load limit
+  const manualLoadBatch = 5; // Batch size for manual load
   const observer = useRef<IntersectionObserver | null>(null); // Persist the observer instance
 
   const fetchReviews = useCallback(
@@ -95,11 +96,20 @@ const Reviews: React.FC = () => {
 
   const getRecommendationMessage = (recommends: string, name: string) => {
     if (recommends === "Yes") {
-      return `${name} would recommend this service.`;
+      return (
+        <>
+          <FaThumbsUp className="inline-block text-green-500 mr-1" />
+          {`${name} would recommend this service.`}
+        </>
+      );
     }
-    return `${name} does not recommend this service.`;
+    return (
+      <>
+        <FaThumbsDown className="inline-block text-red-500 mr-1" />
+        {`${name} does not recommend this service.`}
+      </>
+    );
   };
-
 
   const lastReviewRef = (node: HTMLDivElement) => {
     if (loading || loadMode === 'manual') return;
@@ -203,6 +213,29 @@ const Reviews: React.FC = () => {
             <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
             {getRecommendationMessage(review.recommend, review.name)}
           </p>
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "Product",
+              "name": "World Mobile Phone Plan",
+              "description": "World Mobile Phone Plan",
+              "review": {
+                "@type": "Review",
+                "author": {
+                  "@type": "Person",
+                  "name": review.name || "Anonymous",
+                },
+                "datePublished": review.createdAt,
+                "reviewBody": review.feedback,
+                "reviewRating": {
+                  "@type": "Rating",
+                  "ratingValue": review.overallRating,
+                  "bestRating": "5",
+                  "worstRating": "1",
+                },
+              },
+            })}
+          </script>
           </div>
         ))}
 
