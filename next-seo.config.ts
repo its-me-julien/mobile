@@ -6,7 +6,7 @@ const SEO = {
     openGraph: {
       type: 'website',
       locale: 'en_US',
-      url: 'https://mobile.worldmobile.club/', // Update to your website URL
+      url: 'https://plans.worldmobile.club/', // Update to your website URL
       site_name: 'World Mobile Phone Plan',
       images: [
         {

@@ -19,7 +19,12 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('daisyui')
+  ],
 };
 
 export default config;
