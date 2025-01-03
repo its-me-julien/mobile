@@ -57,6 +57,25 @@ const ReviewForm = () => {
     e.preventDefault();
     setStatus("Submitting...");
   
+    const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+    const submissionData = JSON.parse(localStorage.getItem("submissionData") || "{}");
+  
+    // Check if the date matches and count exceeds the limit
+    if (submissionData.date === currentDate) {
+      if (submissionData.count >= 5) {
+        setStatus("You have reached the daily limit of 5 submissions.");
+        return;
+      }
+    } else {
+      // Reset the count for a new day
+      submissionData.date = currentDate;
+      submissionData.count = 0;
+    }
+  
+    // Increment the count
+    submissionData.count += 1;
+    localStorage.setItem("submissionData", JSON.stringify(submissionData));
+  
     console.log("Form data before submission:", formData);
   
     const parseResult = ReviewSchema.safeParse(formData);
@@ -113,6 +132,7 @@ const ReviewForm = () => {
       setStatus("An unexpected error occurred.");
     }
   };
+  
 
   return (
     <div className="container mx-auto py-10 px-6">
