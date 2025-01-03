@@ -39,18 +39,14 @@ const isThrottled = async (ip) => {
     const ipDoc = await ipDocRef.get();
 
     if (ipDoc.exists) {
-      const { submissionCount = 0, lastSubmission } = ipDoc.data();
+      const { lastSubmission } = ipDoc.data();
       const now = Date.now();
 
-      // Check if last submission was within the same day
-      const startOfToday = new Date();
-      startOfToday.setHours(0, 0, 0, 0);
-
-      if (lastSubmission && lastSubmission.toMillis() > startOfToday.getTime()) {
-        if (submissionCount >= 5) {
-          console.log(`IP ${ip} throttled. Submission count: ${submissionCount}`);
-          return true;
-        }
+      // Allow only one submission per day (24 hours)
+      const oneDayAgo = now - 24 * 60 * 60 * 1000;
+      if (lastSubmission && lastSubmission.toMillis() > oneDayAgo) {
+        console.log(`IP ${ip} throttled. Last submission at: ${lastSubmission.toDate()}`);
+        return true;
       }
     }
 
@@ -64,35 +60,7 @@ const isThrottled = async (ip) => {
 const logSubmission = async (ip) => {
   try {
     const ipDocRef = db.collection("ip_logs").doc(ip);
-    const ipDoc = await ipDocRef.get();
-    const now = admin.firestore.Timestamp.now();
-
-    if (ipDoc.exists) {
-      const { submissionCount = 0, lastSubmission } = ipDoc.data();
-      const startOfToday = new Date();
-      startOfToday.setHours(0, 0, 0, 0);
-
-      if (lastSubmission && lastSubmission.toMillis() > startOfToday.getTime()) {
-        // Increment submission count
-        await ipDocRef.update({
-          submissionCount: admin.firestore.FieldValue.increment(1),
-          lastSubmission: now,
-        });
-      } else {
-        // Reset count for a new day
-        await ipDocRef.set({
-          submissionCount: 1,
-          lastSubmission: now,
-        });
-      }
-    } else {
-      // New IP, start logging
-      await ipDocRef.set({
-        submissionCount: 1,
-        lastSubmission: now,
-      });
-    }
-
+    await ipDocRef.set({ lastSubmission: admin.firestore.Timestamp.now() }, { merge: true });
     console.log(`Logged submission for IP: ${ip}`);
   } catch (error) {
     console.error("Error logging submission:", error);
@@ -125,7 +93,7 @@ exports.handler = async (event) => {
         statusCode: 429, // Too Many Requests
         body: JSON.stringify({
           error: "Rate limit exceeded. Please try again tomorrow.",
-          message: "You have reached the daily limit of 5 submissions from this IP address.",
+          message: "You have reached the daily limit of 1 submission from this IP address.",
         }),
       };
     }
