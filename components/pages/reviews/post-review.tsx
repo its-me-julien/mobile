@@ -9,12 +9,13 @@ import { faInfoCircle, faExclamationCircle, faCheck } from "@fortawesome/free-so
 import RatingField from "./RatingField";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
+
 const ReviewSchema = z.object({
   overallRating: z.number().min(1).max(5),
   serviceRating: z.number().min(1).max(5),
   pricingRating: z.number().min(1).max(5),
   speedRating: z.number().min(1).max(5),
-  feedback: z.string().max(3500),
+  feedback: z.string().min(50).max(3500),
   recommend: z.enum(["Yes", "No"]),
   name: z.string().max(50),
   city: z.string().max(60),
@@ -53,6 +54,7 @@ const ReviewForm = () => {
     setCaptchaToken(token);
   };
 
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Submitting...");
@@ -79,19 +81,26 @@ const ReviewForm = () => {
     console.log("Form data before submission:", formData);
   
     const parseResult = ReviewSchema.safeParse(formData);
-  
-    if (!parseResult.success) {
-      const errorMessages = parseResult.error.issues.map((issue) => issue.message).join(", ");
-      setStatus(`Validation failed: ${errorMessages}`);
-      console.error("Validation errors:", parseResult.error.issues);
-      return;
-    }
-  
-    if (!captchaToken) {
-      setStatus("Please complete the CAPTCHA");
-      console.warn("CAPTCHA token missing");
-      return;
-    }
+
+    
+
+
+  if (!parseResult.success) {
+    const errorMessages = parseResult.error.issues.map((issue) => {
+      if (issue.path[0] === "feedback" && issue.code === "too_small") {
+        return "Feedback must be at least 50 characters.";
+      }
+      return issue.message;
+    }).join(", ");
+    
+    setStatus(`Validation failed: ${errorMessages}`);
+    return;
+  }
+
+  if (!captchaToken) {
+    setStatus("Please complete the CAPTCHA");
+    return;
+  }
   
     try {
       const response = await fetch("/.netlify/functions/submitReview", {
