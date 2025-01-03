@@ -30,20 +30,21 @@ const ReviewSchema = z.object({
 });
 
 const getIpAddress = (event) => {
-  return event.headers['x-forwarded-for'] || event.requestContext?.identity?.sourceIp || "Unknown";
+  return event.headers['x-forwarded-for']?.split(',')[0].trim() || event.requestContext?.identity?.sourceIp || "Unknown";
 };
 
 const isThrottled = async (ip) => {
   try {
+    const primaryIp = ip.split(',')[0].trim();
     const now = Date.now();
     const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
 
     const submissions = await db.collection("ip_logs")
-      .where("ip", "==", ip)
+      .where("ip", "==", primaryIp)
       .where("timestamp", ">=", oneDayAgo)
       .get();
 
-    console.log(`IP ${ip} has made ${submissions.size} submissions in the last 24 hours.`);
+    console.log(`IP ${primaryIp} has made ${submissions.size} submissions in the last 24 hours.`);
     return submissions.size >= 5; // Limit of 5 submissions per day
   } catch (error) {
     console.error("Error checking throttling:", error);
@@ -53,11 +54,12 @@ const isThrottled = async (ip) => {
 
 const logSubmission = async (ip) => {
   try {
+    const primaryIp = ip.split(',')[0].trim();
     await db.collection("ip_logs").add({
-      ip,
+      ip: primaryIp,
       timestamp: new Date().toISOString(),
     });
-    console.log(`Logged submission for IP: ${ip}`);
+    console.log(`Logged submission for IP: ${primaryIp}`);
   } catch (error) {
     console.error("Error logging submission:", error);
   }
