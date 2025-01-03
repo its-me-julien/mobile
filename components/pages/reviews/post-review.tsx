@@ -117,134 +117,123 @@ const ReviewForm = () => {
   return (
     <div className="container mx-auto py-10 px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-        <div className="bg-gradient-to-r from-[#5A2FBA] to-[#F6642D] p-8 rounded-xl shadow-2xl border border-gray-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 space-y-6">
-          <h2 className="text-3xl font-aeonik-bold text-white">
-            Share Your Experience with <span className="text-[#FFFFFF]">World Mobile Phone Plans</span>
-          </h2>
-          <p className="text-lg font-aeonik-regular text-gray-200 leading-relaxed">
-            Your feedback helps others to make confident, informed decisions about their mobile plans.
-            By sharing your experience, you contribute to a trusted and reliable community of World Mobile users.
-          </p>
-          <div className="space-y-4">
-            <h3 className="text-2xl font-aeonik-bold text-white">Why Leave a Review Here?</h3>
-            <p className="text-base text-gray-200 leading-relaxed">
-              At World Mobile Club, reviews are written by actual customers and presented without bias.
-              Our independent, community-driven platform provides transparency by showcasing both positive and negative experiences.
-              This means you’ll get an honest glimpse into what it’s really like to be a World Mobile customer.
-            </p>
-          </div>
+       
+      <div className="bg-gradient-to-r from-[#5A2FBA] to-[#F6642D] p-6 rounded-xl shadow-2xl border border-gray-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 space-y-6">
+  {/* Header Section */}
+  <h2 className="text-xl font-semibold text-white leading-snug">
+    Share Your Experience with <span className="text-white">World Mobile Phone Plans</span>
+  </h2>
+  <p className="text-sm text-gray-200 leading-relaxed">
+    Help others make informed decisions by sharing your experience with World Mobile’s phone plans. Your insights can guide others to choose the right plan for their needs.
+  </p>
 
-          <div className="space-y-4">
-            <h3 className="text-2xl font-aeonik-bold text-white">Tips for Writing a Great Review</h3>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <FontAwesomeIcon icon={faInfoCircle} className="text-white text-2xl" />
-                <p className="text-base text-gray-200">
-                  <strong className="text-white">Be Specific:</strong> Include details like plan features, customer service, and pricing.
-                  Clear examples help others understand your experience.
-                </p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <FontAwesomeIcon icon={faBullhorn} className="text-white text-2xl" />
-                <p className="text-base text-gray-200">
-                  <strong className="text-white">Stay Honest:</strong> Share truthful feedback about what you liked
-                  and where improvements could be made.
-                </p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <FontAwesomeIcon icon={faCheckCircle} className="text-white text-2xl" />
-                <p className="text-base text-gray-200">
-                  <strong className="text-white">Talk About Your Journey:</strong> Describe your experience from start to finish,
-                  including activation, customer service, and usage. Clear and detailed reviews are the most helpful.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+  {/* Why Leave a Review Section */}
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold text-white">Why Leave a Review?</h3>
+    <p className="text-sm text-gray-200 leading-relaxed">
+      Real customer reviews provide valuable insights into the service quality, pricing, and reliability of World Mobile phone plans. Your honest feedback helps build trust within the community.
+    </p>
+  </div>
+
+  {/* Tips for Writing a Review */}
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold text-white">Tips for Writing a Helpful Review</h3>
+    <ul className="space-y-3 list-disc list-inside text-sm text-gray-200">
+      <li>
+        <strong className="text-white">Be Specific:</strong> Talk about plan features, network coverage, and customer support. Include clear examples to make your review more useful.
+      </li>
+      <li>
+        <strong className="text-white">Stay Honest:</strong> Share both the positives and areas for improvement in your experience with World Mobile.
+      </li>
+      <li>
+        <strong className="text-white">Describe Your Experience:</strong> Include details like activation, ease of use, and how well the plan met your needs.
+      </li>
+    </ul>
+  </div>
+</div>
+
 
         <div className="bg-gradient-to-br from-gray-100 via-white to-gray-200 p-6 rounded-xl shadow-2xl border border-gray-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300">
           <h2 className="text-2xl font-aeonik-bold text-black mb-4">Post a Review</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <RatingField
-                label="Overall Rating"
-                name="overallRating"
-                value={formData.overallRating}
-                onChange={handleRatingChange}
-              />
-              <RatingField
-                label="Pricing"
-                name="pricingRating"
-                value={formData.pricingRating}
-                onChange={handleRatingChange}
-              />
-              <RatingField
-                label="Service"
-                name="serviceRating"
-                value={formData.serviceRating}
-                onChange={handleRatingChange}
-              />
-              <RatingField
-                label="Speed"
-                name="speedRating"
-                value={formData.speedRating}
-                onChange={handleRatingChange}
-              />
-            </div>
-            <textarea
-              id="feedback"
-              name="feedback"
-              placeholder="Write your feedback here..."
-              value={formData.feedback}
-              onChange={handleInputChange}
-              required
-              className="textarea textarea-bordered w-full h-28 bg-gray-200 text-black text-sm focus:ring-[#5A2FBA] focus:border-[#5A2FBA]"
-            />
-            <div>
-              <p className="text-sm font-semibold text-black mb-2">
-                Would you recommend World Mobile?
-              </p>
-              <div className="flex space-x-4">
-                <button
-                  type="button"
-                  className={`btn border-0 w-32 flex items-center justify-center space-x-2 ${
-                    formData.recommend === "Yes"
-                      ? "bg-[#F6642D] text-white"
-                      : "bg-gray-300 text-black"
-                  } hover:bg-[#F6642D]`}
-                  onClick={() => setFormData({ ...formData, recommend: "Yes" })}
-                >
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  <span>Yes</span>
-                </button>
-                <button
-                  type="button"
-                  className={`btn border-0 w-32 flex items-center justify-center space-x-2 ${
-                    formData.recommend === "No"
-                      ? "bg-[#F6642D] text-white"
-                      : "bg-gray-300 text-black"
-                  } hover:bg-[#F6642D]`}
-                  onClick={() => setFormData({ ...formData, recommend: "No" })}
-                >
-                  <FontAwesomeIcon icon={faThumbsDown} />
-                  <span>No</span>
-                </button>
-              </div>
-            </div>
-            <div className="space-y-3">
-  <input
-    type="text"
-    id="name"
-    name="name"
-    placeholder="Your Name"
-    value={formData.name}
-    onChange={handleInputChange}
-    className="input input-bordered w-full bg-gray-200 text-black text-sm focus:ring-[#5A2FBA] focus:border-[#5A2FBA]"
-  />
-  {/* Removed fieldErrors.name */}
+          
+          <form onSubmit={handleSubmit} className="space-y-8">
+  {/* Rating Fields */}
+  <div className="space-y-6">
+    <RatingField
+      label="Overall Rating"
+      name="overallRating"
+      value={formData.overallRating}
+      onChange={handleRatingChange}
+    />
+    <RatingField
+      label="Pricing"
+      name="pricingRating"
+      value={formData.pricingRating}
+      onChange={handleRatingChange}
+    />
+    <RatingField
+      label="Service"
+      name="serviceRating"
+      value={formData.serviceRating}
+      onChange={handleRatingChange}
+    />
+    <RatingField
+      label="Speed"
+      name="speedRating"
+      value={formData.speedRating}
+      onChange={handleRatingChange}
+    />
+  </div>
 
-  <div className="grid grid-cols-2 gap-4">
-    <div>
+  {/* Feedback */}
+  <textarea
+    id="feedback"
+    name="feedback"
+    placeholder="Write your feedback here..."
+    value={formData.feedback}
+    onChange={handleInputChange}
+    required
+    className="textarea textarea-bordered w-full h-32 bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"
+  />
+
+  {/* Recommendation */}
+  <div>
+    <p className="text-sm font-medium text-gray-800 mb-3">
+      Would you recommend World Mobile?
+    </p>
+    <div className="flex space-x-4">
+      {["Yes", "No"].map((option) => (
+        <button
+          key={option}
+          type="button"
+          className={`btn border w-36 flex items-center justify-center py-2 px-4 text-sm font-medium rounded-lg ${
+            formData.recommend === option
+              ? "bg-[#F6642D] text-white"
+              : "bg-gray-200 text-gray-800"
+          } hover:bg-gray-300 transition-colors`}
+          onClick={() => setFormData({ ...formData, recommend: option })}
+        >
+          <FontAwesomeIcon
+            icon={option === "Yes" ? faThumbsUp : faThumbsDown}
+          />
+          <span className="ml-2">{option}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {/* User Information */}
+  <div className="space-y-6">
+    <input
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Your Name"
+      value={formData.name}
+      onChange={handleInputChange}
+      className="input input-bordered w-full bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"
+    />
+    <div className="grid grid-cols-2 gap-6">
       <input
         type="text"
         id="city"
@@ -252,11 +241,8 @@ const ReviewForm = () => {
         placeholder="City"
         value={formData.city}
         onChange={handleInputChange}
-        className="input input-bordered w-full bg-gray-200 text-black text-sm focus:ring-[#5A2FBA] focus:border-[#5A2FBA]"
+        className="input input-bordered w-full bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"
       />
-      {/* Removed fieldErrors.city */}
-    </div>
-    <div>
       <input
         type="text"
         id="zipcode"
@@ -264,59 +250,63 @@ const ReviewForm = () => {
         placeholder="Zip Code"
         value={formData.zipcode}
         onChange={handleInputChange}
-        className="input input-bordered w-full bg-gray-200 text-black text-sm focus:ring-[#5A2FBA] focus:border-[#5A2FBA]"
+        className="input input-bordered w-full bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"
       />
-      {/* Removed fieldErrors.zipcode */}
     </div>
   </div>
-</div>
-<div className="relative">
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="Your email (optional)"
-    value={formData.email}
-    onChange={handleInputChange}
-    className="input input-bordered w-full bg-gray-200 text-black text-sm focus:ring-[#5A2FBA] focus:border-[#5A2FBA]"
-  />
-  {/* Removed fieldErrors.email */}
-  <div
-    className="absolute top-1/2 transform -translate-y-1/2 right-2 tooltip tooltip-left"
-    data-tip="Your email will not be published or used to contact you."
-  >
-    <FontAwesomeIcon icon={faInfoCircle} className="text-gray-500 cursor-pointer" />
+
+  {/* Email Input with Tooltip */}
+  <div className="relative">
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="Your email (optional)"
+      value={formData.email}
+      onChange={handleInputChange}
+      className="input input-bordered w-full bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"
+    />
+    <div
+      className="absolute top-1/2 transform -translate-y-1/2 right-4 tooltip tooltip-left"
+      data-tip="Your email will not be published or used to contact you."
+    >
+      <FontAwesomeIcon
+        icon={faInfoCircle}
+        className="text-gray-500 cursor-pointer"
+      />
+    </div>
   </div>
-</div>
 
+  {/* CAPTCHA */}
+  <ReCAPTCHA
+    sitekey="6LfrRqoqAAAAAB5QBGNidW0WHHZIgocAHTibFnLi"
+    onChange={handleCaptchaChange}
+  />
 
-
-            <ReCAPTCHA
-              sitekey="6LfrRqoqAAAAAB5QBGNidW0WHHZIgocAHTibFnLi"
-              onChange={handleCaptchaChange}
-            />
-            <button
-              type="submit"
-              className="btn w-full bg-gradient-to-r from-[#F6642D] to-[#D42E58] text-white hover:brightness-125 border-0"
-            >
-              Post Review
-            </button>
-          </form>
+  {/* Submit Button */}
+  <button
+    type="submit"
+    className="btn w-full py-3 bg-gradient-to-r from-[#F6642D] to-[#D42E58] text-white font-medium rounded-lg hover:brightness-110 shadow-sm border-0"
+  >
+    Post Review
+  </button>
+</form>
         </div>
       </div>
 
       {status && (
-        <div
-          className={`mt-4 text-center text-sm font-semibold p-4 rounded-lg ${
-            status.startsWith("Error") ? "bg-[#D42E58] text-white" : "bg-green-500 text-white"
-          }`}
-        >
-          {status.startsWith("Error") ? (
-            <FontAwesomeIcon icon={faExclamationCircle} className="mr-2" />
-          ) : (
-            <FontAwesomeIcon icon={faCheck} className="mr-2" />
-          )}
-          {status}
+  <div
+    className={`mt-4 text-center text-sm font-medium p-4 rounded-lg shadow-sm ${
+      status.startsWith("Error")
+        ? "bg-[#D42E58] text-white"
+        : "bg-[#5A2FBA] text-white"
+    }`}
+  >
+    <FontAwesomeIcon
+      icon={status.startsWith("Error") ? faExclamationCircle : faCheck}
+      className="mr-2"
+    />
+    {status}
         </div>
       )}
     </div>

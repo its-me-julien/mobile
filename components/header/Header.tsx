@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function Header() {
             height={48}
             className="h-12 w-12"
           />
-          <span className="text-2xl font-extrabold tracking-wide">
+          <span className="text-xl md:text-2xl font-bold tracking-tight leading-snug">
             World Mobile Club
           </span>
         </Link>
@@ -36,7 +36,7 @@ export default function Header() {
             tabIndex={0}
             onClick={toggleMenu}
             className="btn btn-ghost btn-circle"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,11 @@ export default function Header() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d={menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}
+                d={
+                  menuOpen
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M4 6h16M4 12h16m-7 6h7"
+                }
               />
             </svg>
           </button>
@@ -60,7 +64,7 @@ export default function Header() {
             >
               <li>
                 <Link
-                  href="https://plans.worldmobile.club/reviews/"
+                  href="/reviews/"
                   className="hover:bg-white hover:bg-opacity-20"
                 >
                   Reviews
@@ -82,14 +86,14 @@ export default function Header() {
       {/* Desktop Navigation */}
       <nav className="hidden lg:flex space-x-6">
         <Link
-          href="https://plans.worldmobile.club/reviews/"
-          className="py-2 px-4 rounded-md transition-all hover:bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] hover:text-white"
+          href="/reviews/"
+          className="py-2 px-4 text-lg font-medium rounded-md transition-all hover:bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] hover:text-white"
         >
           Reviews
         </Link>
         <Link
           href="https://worldmobile.club/"
-          className="py-2 px-4 rounded-md transition-all hover:bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] hover:text-white"
+          className="py-2 px-4 text-lg font-medium rounded-md transition-all hover:bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] hover:text-white"
         >
           Community
         </Link>

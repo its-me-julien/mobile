@@ -142,9 +142,9 @@ const Reviews: React.FC = () => {
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-3xl space-y-8">
-        <h2 className="text-2xl font-aeonik-bold text-gray-800 text-center leading-relaxed tracking-wide">
-          Latest World Mobile Phone Plan Reviews
-        </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center leading-snug tracking-tight">
+      Latest World Mobile Phone Plan Reviews
+    </h2>
 
        {/* JSON-LD Script */}
        <script type="application/ld+json">
@@ -197,65 +197,90 @@ const Reviews: React.FC = () => {
 
         {reviews.map((review) => (
           <div
-            key={review.id}
-            className="p-6 rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300"
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex flex-col items-start space-y-2">
-                <div className="rating">
-                  {[...Array(5)].map((_, i) => (
-                    <input
-                      key={i}
-                      type="radio"
-                      name={`rating-${review.id}`}
-                      className={`mask mask-star-2 ${
-                        i < review.overallRating ? "bg-[#F6642D]" : "bg-gray-500"
-                      }`}
-                      checked={i === Math.floor(review.overallRating) - 1}
-                      readOnly
-                    />
-                  ))}
-                </div>
-                <p className="text-sm font-aeonik-bold text-gray-800">
-                  {review.name} <span className="font-aeonik-regular text-gray-600">(City: {review.city})</span>
-                </p>
+          key={review.id}
+          className="p-6 rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300"
+        >
+          {/* Header: Reviewer Info */}
+          <div className="flex justify-between items-start">
+            <div className="flex flex-col items-start space-y-2">
+              {/* Star Rating */}
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-6 h-6 mask mask-star-2 ${
+                      i < review.overallRating ? "bg-[#F6642D]" : "bg-gray-300"
+                    }`}
+                  ></div>
+                ))}
               </div>
-              <p className="text-sm font-aeonik-regular text-gray-600">{formatDate(review.createdAt)}</p>
+              {/* Reviewer Name and Location */}
+              <p className="text-base font-semibold text-gray-800">
+                {review.name}{" "}
+                <span className="text-sm font-medium text-gray-600">
+                  (City: {review.city})
+                </span>
+              </p>
             </div>
-            <blockquote
-              className="mt-4 text-sm font-aeonik-regular text-gray-600 overflow-hidden max-h-20 transition-all duration-300 ease-in-out"
-              style={{
-                maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
-              }}
-            >
-              {expandedReviewIds.includes(review.id) ? (
-                review.feedback
-              ) : review.feedback.length > 200 ? (
-                <>
-                  {review.feedback.slice(0, 200)}...
-                  <button
-                    onClick={() => toggleExpandReview(review.id)}
-                    className="text-[#F6642D] underline ml-1"
-                  >
-                    Read more
-                  </button>
-                </>
-              ) : (
-                review.feedback
-              )}
-            </blockquote>
-            <div className="mt-6 flex space-x-4 text-sm font-aeonik-bold">
-              <span className={`badge ${getBadgeClass(review.serviceRating)}`}>Service: {review.serviceRating}/5</span>
-              <span className={`badge ${getBadgeClass(review.pricingRating)}`}>Pricing: {review.pricingRating}/5</span>
-              <span className={`badge ${getBadgeClass(review.speedRating)}`}>Speed: {review.speedRating}/5</span>
-            </div>
-            <p className="mt-4 text-sm font-aeonik-regular text-gray-800">
-              {getRecommendationMessage(review.recommend, review.name)}
-            </p>
+            {/* Review Date */}
+            <p className="text-sm text-gray-500">{formatDate(review.createdAt)}</p>
           </div>
+        
+          {/* Feedback */}
+          <blockquote
+            className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
+            style={{
+              maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+            }}
+          >
+            {expandedReviewIds.includes(review.id) ? (
+              review.feedback
+            ) : review.feedback.length > 200 ? (
+              <>
+                {review.feedback.slice(0, 200)}...
+                <button
+                  onClick={() => toggleExpandReview(review.id)}
+                  className="text-[#F6642D] underline font-medium ml-1"
+                >
+                  Read more
+                </button>
+              </>
+            ) : (
+              review.feedback
+            )}
+          </blockquote>
+        
+          {/* Ratings Breakdown */}
+          <div className="mt-6 flex space-x-4 text-sm">
+            {[
+              { label: "Service", value: review.serviceRating },
+              { label: "Pricing", value: review.pricingRating },
+              { label: "Speed", value: review.speedRating },
+            ].map(({ label, value }) => (
+              <span
+                key={label}
+                className={`badge px-3 py-1 font-medium rounded-full ${
+                  getBadgeClass(value)
+                }`}
+              >
+                {label}: {value}/5
+              </span>
+            ))}
+          </div>
+        
+          {/* Recommendation */}
+          <p className="mt-4 text-sm text-gray-800 font-medium">
+            {getRecommendationMessage(review.recommend, review.name)}
+          </p>
+        </div>
+        
         ))}
 
-        {loading && <p className="text-center text-gray-800">Loading more reviews...</p>}
+{loading && (
+        <p className="text-center text-lg font-medium text-gray-700 animate-pulse">
+          Loading more reviews...
+        </p>
+      )}
       </div>
     </div>
   );

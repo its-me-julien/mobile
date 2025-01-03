@@ -27,11 +27,16 @@ const getGradeText = (averageRating: number) => {
 };
 
 const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
-  ({ totalReviews = 0, averageRating = 0, ratingsBreakdown = { overall: 0, service: 0, pricing: 0, speed: 0 } }) => {
+  ({
+    totalReviews = 0,
+    averageRating = 0,
+    ratingsBreakdown = { overall: 0, service: 0, pricing: 0, speed: 0 },
+  }) => {
+    // Clamp average rating between 0 and 5
     const clampedAverageRating = Math.min(Math.max(averageRating, 0), 5);
     const gradeText = getGradeText(clampedAverageRating);
 
-    // Metrics
+    // Metrics to display
     const metrics = [
       { name: "Overall", value: ratingsBreakdown.overall },
       { name: "Service", value: ratingsBreakdown.service },
@@ -43,23 +48,35 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
       <div className="flex justify-center py-10">
         <div className="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white">
           {/* Header Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-aeonik-bold text-black text-center">
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl font-semibold text-gray-900">
               {totalReviews} Reviews - {gradeText}
             </h2>
-            <p className="text-sm font-aeonik-regular text-gray-600 text-center mt-2">
-              {"★".repeat(Math.round(clampedAverageRating))} - {clampedAverageRating.toFixed(1)}
-            </p>
+            <div className="flex justify-center items-center mt-2">
+              {[...Array(5)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-6 h-6 ${
+                    index < Math.round(clampedAverageRating)
+                      ? "bg-[#F6642D]"
+                      : "bg-gray-300"
+                  } mask mask-star-2`}
+                ></div>
+              ))}
+              <span className="ml-2 text-base font-medium text-gray-700">
+                {clampedAverageRating.toFixed(1)}
+              </span>
+            </div>
           </div>
 
-          {/* Metrics */}
-          <div className="space-y-6">
+          {/* Ratings Breakdown */}
+          <div className="space-y-5">
             {metrics.map(({ name, value }) => (
               <div key={name}>
-                <p className="text-sm font-aeonik-regular text-gray-600 capitalize">{name}</p>
+                <p className="text-sm font-medium text-gray-700 capitalize">{name}</p>
                 <div className="flex items-center space-x-3">
                   <div
-                    className="w-full h-2 rounded bg-gray-200 overflow-hidden"
+                    className="flex-1 h-2 rounded bg-gray-200 overflow-hidden"
                     aria-label={`${name} rating: ${value.toFixed(1)}`}
                   >
                     <div
@@ -70,7 +87,9 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = React.memo(
                       }}
                     ></div>
                   </div>
-                  <span className="text-sm font-aeonik-bold text-black">{value.toFixed(1)}/5</span>
+                  <span className="text-sm font-semibold text-gray-800">
+                    {value.toFixed(1)}/5
+                  </span>
                 </div>
               </div>
             ))}
