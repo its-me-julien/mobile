@@ -35,16 +35,22 @@ const getIpAddress = (event) => {
 
 const isThrottled = async (ip) => {
   try {
-    const primaryIp = ip.split(',')[0].trim();
-    const oneDayAgo = admin.firestore.Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
+    const ipDocRef = db.collection("ip_logs").doc(ip);
+    const ipDoc = await ipDocRef.get();
 
-    const submissions = await db.collection("ip_logs")
-      .where("ip", "==", primaryIp)
-      .where("timestamp", ">=", oneDayAgo)
-      .get();
+    if (ipDoc.exists) {
+      const { lastSubmission } = ipDoc.data();
+      const now = Date.now();
 
-    console.log(`IP ${primaryIp} has made ${submissions.size} submissions in the last 24 hours.`);
-    return submissions.size >= 1; // Limit of 1 submission per day
+      // Allow only one submission per day (24 hours)
+      const oneDayAgo = now - 24 * 60 * 60 * 1000;
+      if (lastSubmission && lastSubmission.toMillis() > oneDayAgo) {
+        console.log(`IP ${ip} throttled. Last submission at: ${lastSubmission.toDate()}`);
+        return true;
+      }
+    }
+
+    return false;
   } catch (error) {
     console.error("Error checking throttling:", error);
     return false; // Allow submissions if throttling check fails
@@ -53,12 +59,9 @@ const isThrottled = async (ip) => {
 
 const logSubmission = async (ip) => {
   try {
-    const primaryIp = ip.split(',')[0].trim();
-    await db.collection("ip_logs").add({
-      ip: primaryIp,
-      timestamp: admin.firestore.Timestamp.now(),
-    });
-    console.log(`Logged submission for IP: ${primaryIp}`);
+    const ipDocRef = db.collection("ip_logs").doc(ip);
+    await ipDocRef.set({ lastSubmission: admin.firestore.Timestamp.now() }, { merge: true });
+    console.log(`Logged submission for IP: ${ip}`);
   } catch (error) {
     console.error("Error logging submission:", error);
     throw new Error("Submission logging failed"); // Prevent submission if logging fails
