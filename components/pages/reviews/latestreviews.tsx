@@ -218,7 +218,7 @@ const Reviews: React.FC = () => {
               <p className="text-base font-semibold text-gray-800">
                 {review.name}{" "}
                 <span className="text-sm font-medium text-gray-600">
-                  (City: {review.city})
+                  (Location: {review.city})
                 </span>
               </p>
             </div>

@@ -238,7 +238,7 @@ const ReviewForm = () => {
         type="text"
         id="city"
         name="city"
-        placeholder="City"
+        placeholder="City or Location"
         value={formData.city}
         onChange={handleInputChange}
         className="input input-bordered w-full bg-gray-50 text-gray-800 text-base rounded-lg shadow-sm focus:ring-[#5A2FBA] focus:outline-none placeholder-gray-400 hover:ring-2 hover:ring-gray-300 transition-all"

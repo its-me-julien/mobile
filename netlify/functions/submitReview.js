@@ -29,6 +29,29 @@ const ReviewSchema = z.object({
   captchaToken: z.string(),
 });
 
+const getIpAddress = (event) => {
+  return event.headers['x-forwarded-for'] || event.requestContext?.identity?.sourceIp || "Unknown";
+};
+
+const isThrottled = async (ip) => {
+  const now = Date.now();
+  const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
+
+  const submissions = await db.collection("ip_logs")
+    .where("ip", "==", ip)
+    .where("timestamp", ">=", oneDayAgo)
+    .get();
+
+  return submissions.size >= 5; // Limit of 5 submissions per day
+};
+
+const logSubmission = async (ip) => {
+  await db.collection("ip_logs").add({
+    ip,
+    timestamp: new Date().toISOString(),
+  });
+};
+
 exports.handler = async (event) => {
   try {
     const data = JSON.parse(event.body);
@@ -43,6 +66,20 @@ exports.handler = async (event) => {
     }
 
     const validatedData = parseResult.data;
+
+    // Capture IP address
+    const ip = getIpAddress(event);
+
+    // Check throttling
+    if (await isThrottled(ip)) {
+      return {
+        statusCode: 429, // Too Many Requests
+        body: JSON.stringify({
+          error: "Rate limit exceeded. Please try again later.",
+          message: "You have reached the daily limit of 5 submissions from this IP address. Please try again tomorrow.",
+        }),
+      };
+    }
 
     // Validate reCAPTCHA
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
@@ -74,6 +111,9 @@ exports.handler = async (event) => {
 
     // Save review to Firestore
     const docRef = await db.collection(collectionName).add(sanitizedData);
+
+    // Log IP address for throttling
+    await logSubmission(ip);
 
     return {
       statusCode: 200,
