@@ -36,8 +36,7 @@ const getIpAddress = (event) => {
 const isThrottled = async (ip) => {
   try {
     const primaryIp = ip.split(',')[0].trim();
-    const now = Date.now();
-    const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
+    const oneDayAgo = admin.firestore.Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
 
     const submissions = await db.collection("ip_logs")
       .where("ip", "==", primaryIp)
@@ -45,7 +44,7 @@ const isThrottled = async (ip) => {
       .get();
 
     console.log(`IP ${primaryIp} has made ${submissions.size} submissions in the last 24 hours.`);
-    return submissions.size >= 5; // Limit of 5 submissions per day
+    return submissions.size >= 1; // Limit of 1 submission per day
   } catch (error) {
     console.error("Error checking throttling:", error);
     return false; // Allow submissions if throttling check fails
@@ -57,11 +56,12 @@ const logSubmission = async (ip) => {
     const primaryIp = ip.split(',')[0].trim();
     await db.collection("ip_logs").add({
       ip: primaryIp,
-      timestamp: new Date().toISOString(),
+      timestamp: admin.firestore.Timestamp.now(),
     });
     console.log(`Logged submission for IP: ${primaryIp}`);
   } catch (error) {
     console.error("Error logging submission:", error);
+    throw new Error("Submission logging failed"); // Prevent submission if logging fails
   }
 };
 
@@ -89,8 +89,8 @@ exports.handler = async (event) => {
       return {
         statusCode: 429, // Too Many Requests
         body: JSON.stringify({
-          error: "Rate limit exceeded. Please try again later.",
-          message: "You have reached the daily limit of 5 submissions from this IP address. Please try again tomorrow.",
+          error: "Rate limit exceeded. Please try again tomorrow.",
+          message: "You have reached the daily limit of 1 submission from this IP address.",
         }),
       };
     }
