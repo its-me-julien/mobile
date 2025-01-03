@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { GoogleAnalytics } from '@next/third-parties/google'
 import { aeonikBold, aeonikBoldItalic, aeonikLight, aeonikLightItalic, aeonikRegular, aeonikRegularItalic } from './fonts'
 import './globals.css'
 import Favicons from '../components/header/Favicons'
@@ -48,7 +47,6 @@ export default function RootLayout({
         <Favicons />
         <RichSchemaOrganization />
         {children}
-        <GoogleAnalytics gaId="G-GGBKYMDYL1" />
       </body>
     </html>
   )
