@@ -34,22 +34,33 @@ const getIpAddress = (event) => {
 };
 
 const isThrottled = async (ip) => {
-  const now = Date.now();
-  const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
+  try {
+    const now = Date.now();
+    const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
 
-  const submissions = await db.collection("ip_logs")
-    .where("ip", "==", ip)
-    .where("timestamp", ">=", oneDayAgo)
-    .get();
+    const submissions = await db.collection("ip_logs")
+      .where("ip", "==", ip)
+      .where("timestamp", ">=", oneDayAgo)
+      .get();
 
-  return submissions.size >= 5; // Limit of 5 submissions per day
+    console.log(`IP ${ip} has made ${submissions.size} submissions in the last 24 hours.`);
+    return submissions.size >= 5; // Limit of 5 submissions per day
+  } catch (error) {
+    console.error("Error checking throttling:", error);
+    return false; // Allow submissions if throttling check fails
+  }
 };
 
 const logSubmission = async (ip) => {
-  await db.collection("ip_logs").add({
-    ip,
-    timestamp: new Date().toISOString(),
-  });
+  try {
+    await db.collection("ip_logs").add({
+      ip,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Logged submission for IP: ${ip}`);
+  } catch (error) {
+    console.error("Error logging submission:", error);
+  }
 };
 
 exports.handler = async (event) => {
@@ -59,6 +70,7 @@ exports.handler = async (event) => {
     // Validate input data using Zod
     const parseResult = ReviewSchema.safeParse(data);
     if (!parseResult.success) {
+      console.error("Validation failed:", parseResult.error.issues);
       return {
         statusCode: 400,
         body: JSON.stringify({ error: parseResult.error.issues }),
@@ -111,6 +123,7 @@ exports.handler = async (event) => {
 
     // Save review to Firestore
     const docRef = await db.collection(collectionName).add(sanitizedData);
+    console.log(`Review saved with ID: ${docRef.id}`);
 
     // Log IP address for throttling
     await logSubmission(ip);
@@ -123,7 +136,7 @@ exports.handler = async (event) => {
       }),
     };
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error processing submission:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Internal Server Error" }),
