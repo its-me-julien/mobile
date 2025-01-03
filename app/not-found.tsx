@@ -10,20 +10,23 @@ const NotFoundPage: React.FC = () => {
     <div className="min-h-screen flex flex-col ">
       <Header />
 
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-6xl font-aeonik-bold text-black mb-4">
-          Oops! <span className="bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text text-transparent">Disconnected</span>
+      <div className="grid grid-cols-1 gap-6 max-w-3xl mx-auto px-4">
+    <div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-black text-center px-6 md:px-8 py-4 md:py-6 mb-8">
+            Oops! <br />
+            <span className="bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text text-transparent">Disconnected</span>
         </h1>
-        <p className="text-xl text-gray-900 mb-8 max-w-2xl">
-          Looks like you&apos;ve wandered out of range—don&apos;t worry, reconnecting is what we do best! Let&apos;s get you back on track and plugged into the World Mobile ecosystem.
+        <p className="mt-4 text-lg md:text-xl leading-relaxed text-gray-900 text-center px-4 md:px-6">
+            Looks like you&apos;ve wandered out of range—don&apos;t worry, reconnecting is what we do best! Let&apos;s get you back on track and plugged into the World Mobile ecosystem.
         </p>
         <Link
-          href="/"
-          className="btn bg-gradient-to-r from-[#5A2FBA] to-[#D42E58] text-white hover:brightness-125 border-none px-12 py-3 rounded-full"
+            href="/"
+            className="btn bg-gradient-to-r from-[#5A2FBA] to-[#D42E58] text-white hover:brightness-125 border-none px-12 py-3 rounded-full mx-auto block"
         >
-          Rejoin the Network
+            Rejoin the Network
         </Link>
-      </main>
+    </div>
+</div>
 
       <Footer />
     </div>

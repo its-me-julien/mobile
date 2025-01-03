@@ -17,7 +17,7 @@ const MobilePlanReviewsPage = () => {
       overall: 5,
       service: 5,
       pricing: 5,
-      speed: 5, // Updated to include "speed" instead of "features"
+      speed: 5, 
     },
   });
   const [loadingSummary, setLoadingSummary] = useState(true);
@@ -33,7 +33,6 @@ const MobilePlanReviewsPage = () => {
         });
 
         const data = await response.json();
-        console.log("API Response:", data); // Debugging log
         if (response.ok) {
           setSummaryData({
             totalReviews: data.totalReviews ?? 0,
@@ -70,7 +69,7 @@ const MobilePlanReviewsPage = () => {
       <main className="flex-grow w-full py-12 px-4">
         <div className="container mx-auto space-y-16">
           {/* Page Header */}
-          <header className="text-center max-w-5xl mx-auto px-4 py-12 md:py-14 space-y-6">
+          <header className="text-center max-w-5xl mx-auto px-4 md:py-14 space-y-6">
             <h1
               id="world-mobile-reviews-header"
               className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight text-black px-6 md:px-8 py-4 md:py-6 mb-8"
