@@ -29,3 +29,19 @@ export const aeonikRegularItalic = localFont({
   src: '../public/fonts/Aeonik-RegularItalic.otf',
   variable: '--font-aeonik-regular-italic',
 })
+
+// New font imports
+export const aeonikAir = localFont({
+  src: '../public/fonts/Aeonik-Air.ttf', // extra-thin
+  variable: '--font-aeonik-air',
+})
+
+export const aeonikBlack = localFont({
+  src: '../public/fonts/Aeonik-Black.ttf', // extra-bold
+  variable: '--font-aeonik-black',
+})
+
+export const aeonikThin = localFont({
+  src: '../public/fonts/Aeonik-Thin.ttf', // thin
+  variable: '--font-aeonik-thin',
+})

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Header from "../../components/header/Header";
+import Menu from "../../components/header/Menu";  // Import the Menu component
+import Header from "../../components/header/Header"; // Corrected import for the header
 import Footer from "../../components/footer/Footer";
 import JoinDiscussion from "../../components/pages/reviews/discussions";
 import MetaFields from "../../components/pages/reviews/metafields";
@@ -59,8 +60,16 @@ const MobilePlanReviewsPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-100 to-white text-black">
-      {/* Header */}
-      <Header />
+      {/* Menu Component */}
+      <Menu />
+
+      {/* Updated Header */}
+      <Header 
+        title="Real Reviews from World Mobile Phone Plans Customers" 
+        gradientWords={["World Mobile Phone Plans"]} 
+        showArrow={false} 
+        subtitle="Considering a World Mobile phone plan? Read real customer reviews to understand the value, speed, and reliability of these plans before you make a decision."
+      />
 
       {/* Meta Fields */}
       <MetaFields />
@@ -68,23 +77,7 @@ const MobilePlanReviewsPage = () => {
       {/* Main Content */}
       <main className="flex-grow w-full py-8 px-4">
         <div className="container mx-auto space-y-10">
-          {/* Page Header */}
-          <header className="text-center max-w-4xl mx-auto px-4 py-8 space-y-4">
-            <h1
-              id="world-mobile-reviews-header"
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight text-black px-4 py-2"
-            >
-              Real Reviews from <br />World Mobile&nbsp;
-              <span className="text-transparent bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text">
-                Phone Plans
-              </span>{" "}
-              Customers
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-700 px-4">
-              Considering a World Mobile phone plan? Read real customer reviews to understand the
-              value, speed, and reliability of these plans before you make a decision.
-            </p>
-          </header>
+
 
           {/* Review Summary */}
           <section id="review-summary" aria-labelledby="review-summary-title" className="space-y-6">

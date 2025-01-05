@@ -52,13 +52,13 @@ const JoinDiscussion: React.FC = () => {
         {/* Header Section */}
         <header className="text-center max-w-3xl mx-auto space-y-6">
   <h2 className="text-3xl sm:text-4xl font-bold text-black leading-tight">
-    Engage with the{" "}
+    Ask the{" "}
     <span className="bg-gradient-to-r from-[#F6642D] via-[#D42E58] to-[#5A2FBA] bg-clip-text text-transparent">
       World Mobile Community
     </span>
   </h2>
   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-    Join the World Mobile Club community to share your experience,
+    Join the World Mobile Club to share your experience,
     connect with others, and stay informed about the latest home
     internet offerings and updates.
   </p>
@@ -73,7 +73,7 @@ const JoinDiscussion: React.FC = () => {
                 Mobile Plan Reviews
               </h3>
               <p className="text-gray-600 mt-4">
-                Explore honest reviews and experiences from customers about
+                Explore genuine reviews and experiences from customers about
                 World Mobile phone plans.
               </p>
               <div className="mt-6">
@@ -96,8 +96,7 @@ const JoinDiscussion: React.FC = () => {
                 Visit the Club
               </h3>
               <p className="text-gray-600 mt-4">
-                Join discussions about World Mobile phone plans, celebrate
-                milestones, and connect with the community.
+                Join discussions about World Mobile, phone plans, mobile coverage and connect with the community.
               </p>
               <div className="mt-6">
                 <a
