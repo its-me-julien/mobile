@@ -134,10 +134,11 @@ const Reviews: React.FC = () => {
   };
 
   const getBadgeClass = (rating: number) => {
-    if (rating >= 4) return "bg-[#F6642D] text-white";
-    if (rating >= 2) return "bg-[#5A2FBA] text-white";
-    return "bg-[#D42E58] text-white";
+    if (rating >= 5) return "bg-black text-white"; // Perfect score: black background with white text
+    if (rating >= 3) return "bg-gray-800 text-gray-100"; // Good score: dark gray background with light gray text
+    return "bg-gray-700 text-gray-200"; // Lower score: lighter dark gray background with brighter gray text
   };
+  
 
   return (
     <div className="flex justify-center py-10 px-4">
