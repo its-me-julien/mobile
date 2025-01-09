@@ -227,9 +227,9 @@ const Reviews: React.FC = () => {
           </div>
         
           {/* Feedback */}
-          <div>
+          <div className="mt-4">
   <blockquote
-    className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
+    className="text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out leading-relaxed"
     style={{
       maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
     }}
@@ -242,13 +242,14 @@ const Reviews: React.FC = () => {
     <div className="mt-2 flex justify-end">
       <button
         onClick={() => toggleExpandReview(review.id)}
-        className="text-[#F6642D] underline font-medium"
+        className="text-[#F6642D] underline font-medium text-xs sm:text-sm hover:text-[#e55c2c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F6642D] transition duration-200"
       >
         {expandedReviewIds.includes(review.id) ? "Read less" : "Read more"}
       </button>
     </div>
   )}
 </div>
+
         
           {/* Ratings Breakdown */}
           <div className="mt-6 flex flex-wrap gap-2 text-sm">
@@ -280,7 +281,7 @@ const Reviews: React.FC = () => {
   <div className="text-center mt-6">
     <button
       onClick={() => fetchReviews(reviews.length, reviewsPerBatch)}
-      className="px-6 py-3 bg-[#F6642D] text-white font-bold rounded-lg hover:bg-[#e55c2c] transition-colors duration-300"
+      className="px-6 py-3 bg-[#000000e6] text-white font-bold rounded-lg hover:bg-[#e55c2c] transition-colors duration-300"
       disabled={loading}
     >
       {loading ? "Loading..." : "Show More Reviews"}
