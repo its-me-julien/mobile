@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: 'World Mobile Club',
   },
   twitter: {
-    site: '@worldmobileclub', // Twitter site handle
+    site: '@club_wmtx', // Twitter site handle
     creator: '@coffee_wmtx', // Optional: Content creator's Twitter handle (if applicable)
   },
 }

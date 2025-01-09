@@ -5,14 +5,17 @@ const RichSchemaOrganization = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "World Mobile Club",
-    url: "https://worldmobile.club/",
+    url: "https://plans.worldmobile.club/",
     logo: "https://worldmobile.club/images/club_logo.png", // Updated with the correct public path
     description:
       "Connecting everyone, everywhere with the first blockchain-powered mobile network World Mobile Chain. Join the movement to bridge the digital divide.",
     foundingDate: "2024-01-01",
     sameAs: [
+      "https://worldmobile.club/",
       "https://www.facebook.com/coffe.earthnode.worldmobile",
-      "https://twitter.com/coffee_wmtx",
+      "https://twitter.com/club_wmtx",
+      "https://www.reddit.com/user/Club_WMTx/",
+      "https://bsky.app/profile/worldmobile.club",
       "https://www.linkedin.com/company/coffee-earth-nodes",
       "https://www.instagram.com/coffee_earth_nodes/"
     ],

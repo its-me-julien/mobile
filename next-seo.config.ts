@@ -11,8 +11,6 @@ const SEO = {
       images: [
         {
           url: '/images/club_logo.png', // Path to the logo in the public folder
-          width: 800,
-          height: 600,
           alt: 'World Mobile Club Logo',
         },
       ],

@@ -10,16 +10,12 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-aeonik-regular)', 'sans-serif'], // Default sans for regular text
-
-        // Bold and italic variants
         'aeonik-bold': ['var(--font-aeonik-bold)', 'sans-serif'], // Bold weight
         'aeonik-bold-italic': ['var(--font-aeonik-bold-italic)', 'sans-serif'], // Bold italic
         'aeonik-light': ['var(--font-aeonik-light)', 'sans-serif'], // Light weight
         'aeonik-light-italic': ['var(--font-aeonik-light-italic)', 'sans-serif'], // Light italic
         'aeonik-regular': ['var(--font-aeonik-regular)', 'sans-serif'], // Regular weight
         'aeonik-regular-italic': ['var(--font-aeonik-regular-italic)', 'sans-serif'], // Regular italic
-        
-        // New font weights added
         'aeonik-air': ['var(--font-aeonik-air)', 'sans-serif'], // Extra-thin font
         'aeonik-black': ['var(--font-aeonik-black)', 'sans-serif'], // Extra-bold font
         'aeonik-thin': ['var(--font-aeonik-thin)', 'sans-serif'], // Thin font

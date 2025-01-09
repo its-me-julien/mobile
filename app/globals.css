@@ -13,8 +13,6 @@
   --font-aeonik-bold-italic: 'AeonikBoldItalic', Arial, Helvetica, sans-serif;
   --font-aeonik-light-italic: 'AeonikLightItalic', Arial, Helvetica, sans-serif;
   --font-aeonik-regular-italic: 'AeonikRegularItalic', Arial, Helvetica, sans-serif;
-
-  /* New aeonik fonts for extra-thin, extra-bold, and thin weights */
   --font-aeonik-air: 'AeonikAir', Arial, Helvetica, sans-serif; /* extra-thin */
   --font-aeonik-black: 'AeonikBlack', Arial, Helvetica, sans-serif; /* extra-bold */
   --font-aeonik-thin: 'AeonikThin', Arial, Helvetica, sans-serif; /* thin */
@@ -43,23 +41,23 @@ b, strong {
 
 /* Targeting h1 with Tailwind's responsive typography and custom font */
 h1 {
-  @apply text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight;
-  font-family: var(--font-aeonik-regular); /* Ensure aeonik-bold font is applied */
+  @apply text-4xl md:text-5xl lg:text-6xl  leading-tight tracking-tight;
+  font-family: var(--font-aeonik-black); /* Ensure aeonik-bold font is applied */
 }
 
 /* Custom styles for h2, h3, h4 with responsive typography */
 h2 {
-  @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-snug tracking-tight;
-  font-family: var(--font-aeonik-bold); /* Apply aeonik-bold font */
+  @apply text-3xl md:text-4xl lg:text-4xl  leading-snug tracking-tight;
+  font-family: var(--font-aeonik-black); /* Apply aeonik-bold font */
 }
 
 h3 {
-  @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-snug tracking-tight;
+  @apply text-2xl md:text-3xl lg:text-3xl  leading-snug tracking-tight;
   font-family: var(--font-aeonik-bold); /* Apply aeonik-bold font */
 }
 
 h4 {
-  @apply text-xl md:text-2xl lg:text-3xl font-bold leading-snug tracking-tight;
+  @apply text-xl md:text-2xl lg:text-2xl  leading-snug tracking-tight;
   font-family: var(--font-aeonik-bold); /* Apply aeonik-bold font */
 }
 
