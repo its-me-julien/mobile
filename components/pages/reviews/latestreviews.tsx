@@ -227,33 +227,28 @@ const Reviews: React.FC = () => {
           </div>
         
           {/* Feedback */}
-          <blockquote
-  className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out relative"
-  style={{
-    maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
-    position: "relative",
-  }}
->
-  {expandedReviewIds.includes(review.id) ? (
-    review.feedback
-  ) : review.feedback.length > 200 ? (
-    <>
-      {review.feedback.slice(0, 200)}...
-      <div
-        className="absolute bottom-0 left-0 w-full flex justify-end bg-gradient-to-t from-white via-transparent"
+          <div>
+  <blockquote
+    className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
+    style={{
+      maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+    }}
+  >
+    {expandedReviewIds.includes(review.id)
+      ? review.feedback
+      : `${review.feedback.slice(0, 200)}...`}
+  </blockquote>
+  {review.feedback.length > 200 && (
+    <div className="mt-2 flex justify-end">
+      <button
+        onClick={() => toggleExpandReview(review.id)}
+        className="text-[#F6642D] underline font-medium"
       >
-        <button
-          onClick={() => toggleExpandReview(review.id)}
-          className="text-[#F6642D] underline font-medium ml-1 block sm:block"
-        >
-          Read more
-        </button>
-      </div>
-    </>
-  ) : (
-    review.feedback
+        {expandedReviewIds.includes(review.id) ? "Read less" : "Read more"}
+      </button>
+    </div>
   )}
-</blockquote>
+</div>
         
           {/* Ratings Breakdown */}
           <div className="mt-6 flex flex-wrap gap-2 text-sm">
