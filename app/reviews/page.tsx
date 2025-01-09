@@ -66,7 +66,7 @@ const MobilePlanReviewsPage = () => {
       {/* Updated Header */}
       <Header 
         title="Real Reviews from World Mobile Phone Plans Customers" 
-        gradientWords={["World Mobile Phone Plans"]} 
+        gradientWords={["World Mobile"]} 
         showArrow={false} 
         subtitle="Considering a World Mobile phone plan? Read real customer reviews to understand the value, speed, and reliability of these plans before you make a decision."
       />

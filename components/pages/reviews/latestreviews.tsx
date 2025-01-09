@@ -228,45 +228,47 @@ const Reviews: React.FC = () => {
         
           {/* Feedback */}
           <blockquote
-            className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
-            style={{
-              maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
-            }}
-          >
-            {expandedReviewIds.includes(review.id) ? (
-              review.feedback
-            ) : review.feedback.length > 200 ? (
-              <>
-                {review.feedback.slice(0, 200)}...
-                <button
-                  onClick={() => toggleExpandReview(review.id)}
-                  className="text-[#F6642D] underline font-medium ml-1"
-                >
-                  Read more
-                </button>
-              </>
-            ) : (
-              review.feedback
-            )}
-          </blockquote>
+  className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
+  style={{
+    maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+  }}
+>
+  {expandedReviewIds.includes(review.id) ? (
+    review.feedback
+  ) : review.feedback.length > 200 ? (
+    <>
+      {review.feedback.slice(0, 200)}...
+      <div className="mt-2">
+        <button
+          onClick={() => toggleExpandReview(review.id)}
+          className="text-[#F6642D] underline font-medium ml-1"
+        >
+          Read more
+        </button>
+      </div>
+    </>
+  ) : (
+    review.feedback
+  )}
+</blockquote>
         
           {/* Ratings Breakdown */}
-          <div className="mt-6 flex space-x-4 text-sm">
-            {[
-              { label: "Service", value: review.serviceRating },
-              { label: "Pricing", value: review.pricingRating },
-              { label: "Speed", value: review.speedRating },
-            ].map(({ label, value }) => (
-              <span
-                key={label}
-                className={`badge px-3 py-1 font-medium rounded-full ${
-                  getBadgeClass(value)
-                }`}
-              >
-                {label}: {value}/5
-              </span>
-            ))}
-          </div>
+          <div className="mt-6 flex flex-wrap gap-2 text-sm">
+  {[
+    { label: "Service", value: review.serviceRating },
+    { label: "Pricing", value: review.pricingRating },
+    { label: "Speed", value: review.speedRating },
+  ].map(({ label, value }) => (
+    <span
+      key={label}
+      className={`badge px-3 py-1 font-medium rounded-full ${
+        getBadgeClass(value)
+      } max-w-[120px] text-xs md:text-sm`} // Added responsive classes
+    >
+      {label}: {value}/5
+    </span>
+  ))}
+</div>
         
           {/* Recommendation */}
           <p className="mt-4 text-sm text-gray-800 font-medium">
