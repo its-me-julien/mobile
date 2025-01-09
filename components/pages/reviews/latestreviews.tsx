@@ -228,11 +228,10 @@ const Reviews: React.FC = () => {
         
           {/* Feedback */}
           <blockquote
-  className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
+  className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out relative"
   style={{
-    maxHeight: expandedReviewIds.includes(review.id)
-      ? "100%" // Full height when expanded
-      : "5rem", // Truncated height for non-expanded
+    maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+    position: "relative",
   }}
 >
   {expandedReviewIds.includes(review.id) ? (
@@ -240,7 +239,9 @@ const Reviews: React.FC = () => {
   ) : review.feedback.length > 200 ? (
     <>
       {review.feedback.slice(0, 200)}...
-      <div className="mt-2">
+      <div
+        className="absolute bottom-0 left-0 w-full flex justify-end bg-gradient-to-t from-white via-transparent"
+      >
         <button
           onClick={() => toggleExpandReview(review.id)}
           className="text-[#F6642D] underline font-medium ml-1 block sm:block"
