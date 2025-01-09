@@ -230,7 +230,9 @@ const Reviews: React.FC = () => {
           <blockquote
   className="mt-4 text-sm text-gray-700 overflow-hidden transition-all duration-300 ease-in-out"
   style={{
-    maxHeight: expandedReviewIds.includes(review.id) ? "100%" : "5rem",
+    maxHeight: expandedReviewIds.includes(review.id)
+      ? "100%" // Full height when expanded
+      : "5rem", // Truncated height for non-expanded
   }}
 >
   {expandedReviewIds.includes(review.id) ? (
@@ -241,7 +243,7 @@ const Reviews: React.FC = () => {
       <div className="mt-2">
         <button
           onClick={() => toggleExpandReview(review.id)}
-          className="text-[#F6642D] underline font-medium ml-1"
+          className="text-[#F6642D] underline font-medium ml-1 block sm:block"
         >
           Read more
         </button>

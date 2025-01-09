@@ -147,7 +147,7 @@ const ReviewForm = () => {
     <div className="container mx-auto py-10 px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
        
-      <div className="bg-gradient-to-r from-[#5A2FBA] to-[#F6642D] p-6 rounded-xl shadow-2xl border border-gray-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 space-y-6">
+      <div className="bg-[#000000e6] p-6 rounded-xl shadow-2xl border border-gray-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 space-y-6">
   {/* Header Section */}
   <h2 className="text-xl font-semibold text-white leading-snug">
     Share Your Experience with <span className="text-white">World Mobile Phone Plans</span>
