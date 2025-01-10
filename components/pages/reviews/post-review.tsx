@@ -64,8 +64,8 @@ const ReviewForm = () => {
   
     // Check if the date matches and count exceeds the limit
     if (submissionData.date === currentDate) {
-      if (submissionData.count >= 1) {
-        setStatus("You have reached the daily limit of 1 submission.");
+      if (submissionData.count >= 5) {
+        setStatus("You have reached the daily limit of submission.");
         return;
       }
     } else {
