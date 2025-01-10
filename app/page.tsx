@@ -6,7 +6,7 @@ import MobilePlansSection from '../components/homepage/MobilePlansSection';  // 
 
 export default function Home() {
   return (
-    <div className="font-aeonik-regular bg-white">
+    <div className="font-aeonik-regular ">
       <Menu /> {/* Adding the Menu component */}
       <Header 
         title="Mobile Plans by World Mobile" 

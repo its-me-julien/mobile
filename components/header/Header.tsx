@@ -18,8 +18,8 @@ const Header: React.FC<HeaderProps> = ({
   gradientDirection = 'to-r', // Default to rightward gradient
   showArrow = false,
   subtitle = "Your one-stop resource for all World Mobile support.",
-  titleColor = 'black',
-  textColor = 'text-gray-800',
+  titleColor = 'white',
+  textColor = 'text-gray-900',
 }) => {
   const [startColor, middleColor, endColor] = gradientColors;
 
@@ -45,14 +45,14 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="grid grid-cols-1 gap-6 max-w-3xl mx-auto text-center py-20 px-4" role="banner">
       <div>
-        <h1 className={`mb-6 ${titleColor === 'white' ? 'text-white' : titleColor}`} dangerouslySetInnerHTML={{ __html: applyGradient }} />
+        <h1 className={`mb-6 ${titleColor === 'black' ? 'text-black' : titleColor}`} dangerouslySetInnerHTML={{ __html: applyGradient }} />
         <p className={`mb-8 leading-relaxed text-lg ${textColor}`}>
           {subtitle}
         </p>
       </div>
       {showArrow && (
         <div className="flex justify-center">
-          <span className="text-2xl text-gray-300 animate-bounce" aria-label="Scroll down arrow">
+          <span className="text-2xl text-gray-900 animate-bounce" aria-label="Scroll down arrow">
             ↓
           </span>
         </div>
